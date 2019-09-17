@@ -38,182 +38,218 @@ function f_stand1()
 	self.frame=FRAME_swim1
 	self.nextthink = time + 0.1
 	self.think = f_stand2
+	ai_stand()
 end
 function f_stand2()
 	self.frame=FRAME_swim2
 	self.nextthink = time + 0.1
 	self.think = f_stand3
+	ai_stand()
 end
 function f_stand3()
 	self.frame=FRAME_swim3
 	self.nextthink = time + 0.1
 	self.think = f_stand4
+	ai_stand()
 end
 function f_stand4()
 	self.frame=FRAME_swim4
 	self.nextthink = time + 0.1
 	self.think = f_stand5
+	ai_stand()
 end
 function f_stand5()
 	self.frame=FRAME_swim5
 	self.nextthink = time + 0.1
 	self.think = f_stand6
+	ai_stand()
 end
 function f_stand6()
 	self.frame=FRAME_swim6
 	self.nextthink = time + 0.1
 	self.think = f_stand7
+	ai_stand()
 end
 function f_stand7()
 	self.frame=FRAME_swim7
 	self.nextthink = time + 0.1
 	self.think = f_stand8
+	ai_stand()
 end
 function f_stand8()
 	self.frame=FRAME_swim8
 	self.nextthink = time + 0.1
 	self.think = f_stand9
+	ai_stand()
 end
 function f_stand9()
 	self.frame=FRAME_swim9
 	self.nextthink = time + 0.1
 	self.think = f_stand10
+	ai_stand()
 end
 function f_stand10()
 	self.frame=FRAME_swim10
 	self.nextthink = time + 0.1
 	self.think = f_stand11
+	ai_stand()
 end
 function f_stand11()
 	self.frame=FRAME_swim11
 	self.nextthink = time + 0.1
 	self.think = f_stand12
+	ai_stand()
 end
 function f_stand12()
 	self.frame=FRAME_swim12
 	self.nextthink = time + 0.1
 	self.think = f_stand13
+	ai_stand()
 end
 function f_stand13()
 	self.frame=FRAME_swim13
 	self.nextthink = time + 0.1
 	self.think = f_stand14
+	ai_stand()
 end
 function f_stand14()
 	self.frame=FRAME_swim14
 	self.nextthink = time + 0.1
 	self.think = f_stand15
+	ai_stand()
 end
 function f_stand15()
 	self.frame=FRAME_swim15
 	self.nextthink = time + 0.1
 	self.think = f_stand16
+	ai_stand()
 end
 function f_stand16()
 	self.frame=FRAME_swim16
 	self.nextthink = time + 0.1
 	self.think = f_stand17
+	ai_stand()
 end
 function f_stand17()
 	self.frame=FRAME_swim17
 	self.nextthink = time + 0.1
 	self.think = f_stand18
+	ai_stand()
 end
 function f_stand18()
 	self.frame=FRAME_swim18
 	self.nextthink = time + 0.1
 	self.think = f_stand1
+	ai_stand()
 end
 
 function f_walk1()
 	self.frame=FRAME_swim1
 	self.nextthink = time + 0.1
 	self.think = f_walk2
+	ai_walk(8)
 end
 function f_walk2()
 	self.frame=FRAME_swim2
 	self.nextthink = time + 0.1
 	self.think = f_walk3
+	ai_walk(8)
 end
 function f_walk3()
 	self.frame=FRAME_swim3
 	self.nextthink = time + 0.1
 	self.think = f_walk4
+	ai_walk(8)
 end
 function f_walk4()
 	self.frame=FRAME_swim4
 	self.nextthink = time + 0.1
 	self.think = f_walk5
+	ai_walk(8)
 end
 function f_walk5()
 	self.frame=FRAME_swim5
 	self.nextthink = time + 0.1
 	self.think = f_walk6
+	ai_walk(8)
 end
 function f_walk6()
 	self.frame=FRAME_swim6
 	self.nextthink = time + 0.1
 	self.think = f_walk7
+	ai_walk(8)
 end
 function f_walk7()
 	self.frame=FRAME_swim7
 	self.nextthink = time + 0.1
 	self.think = f_walk8
+	ai_walk(8)
 end
 function f_walk8()
 	self.frame=FRAME_swim8
 	self.nextthink = time + 0.1
 	self.think = f_walk9
+	ai_walk(8)
 end
 function f_walk9()
 	self.frame=FRAME_swim9
 	self.nextthink = time + 0.1
 	self.think = f_walk10
+	ai_walk(8)
 end
 function f_walk10()
 	self.frame=FRAME_swim10
 	self.nextthink = time + 0.1
 	self.think = f_walk11
+	ai_walk(8)
 end
 function f_walk11()
 	self.frame=FRAME_swim11
 	self.nextthink = time + 0.1
 	self.think = f_walk12
+	ai_walk(8)
 end
 function f_walk12()
 	self.frame=FRAME_swim12
 	self.nextthink = time + 0.1
 	self.think = f_walk13
+	ai_walk(8)
 end
 function f_walk13()
 	self.frame=FRAME_swim13
 	self.nextthink = time + 0.1
 	self.think = f_walk14
+	ai_walk(8)
 end
 function f_walk14()
 	self.frame=FRAME_swim14
 	self.nextthink = time + 0.1
 	self.think = f_walk15
+	ai_walk(8)
 end
 function f_walk15()
 	self.frame=FRAME_swim15
 	self.nextthink = time + 0.1
 	self.think = f_walk16
+	ai_walk(8)
 end
 function f_walk16()
 	self.frame=FRAME_swim16
 	self.nextthink = time + 0.1
 	self.think = f_walk17
+	ai_walk(8)
 end
 function f_walk17()
 	self.frame=FRAME_swim17
 	self.nextthink = time + 0.1
 	self.think = f_walk18
+	ai_walk(8)
 end
 function f_walk18()
 	self.frame=FRAME_swim18
 	self.nextthink = time + 0.1
 	self.think = f_walk1
+	ai_walk(8)
 end
 
 function f_run1()
@@ -222,47 +258,55 @@ function f_run1()
 	self.think = f_run2
 	if random() < 0.5 then -- TODO check condition
 		sound (self, CHAN_VOICE, "fish/idle.wav", 1, ATTN_NORM)
-end
+        end
 end
 function f_run2()
 	self.frame=FRAME_swim3
 	self.nextthink = time + 0.1
 	self.think = f_run3
+	ai_run(12)
 end
 function f_run3()
 	self.frame=FRAME_swim5
 	self.nextthink = time + 0.1
 	self.think = f_run4
+	ai_run(12)
 end
 function f_run4()
 	self.frame=FRAME_swim7
 	self.nextthink = time + 0.1
 	self.think = f_run5
+	ai_run(12)
 end
 function f_run5()
 	self.frame=FRAME_swim9
 	self.nextthink = time + 0.1
 	self.think = f_run6
+	ai_run(12)
 end
 function f_run6()
 	self.frame=FRAME_swim11
 	self.nextthink = time + 0.1
 	self.think = f_run7
+	ai_run(12)
 end
 function f_run7()
 	self.frame=FRAME_swim13
 	self.nextthink = time + 0.1
 	self.think = f_run8
+	ai_run(12)
 end
 function f_run8()
 	self.frame=FRAME_swim15
 	self.nextthink = time + 0.1
 	self.think = f_run9
+	ai_run(12)
 end
 function f_run9()
 	self.frame=FRAME_swim17
 	self.nextthink = time + 0.1
 	self.think = f_run1
+	ai_run(12)
 end
 
 function fish_melee()
@@ -288,97 +332,116 @@ function f_attack1()
 	self.frame=FRAME_attack1
 	self.nextthink = time + 0.1
 	self.think = f_attack2
+	ai_charge(10)
 end
 function f_attack2()
 	self.frame=FRAME_attack2
 	self.nextthink = time + 0.1
 	self.think = f_attack3
+	ai_charge(10)
 end
 function f_attack3()
 	self.frame=FRAME_attack3
 	self.nextthink = time + 0.1
 	self.think = f_attack4
+	fish_melee()
 end
 function f_attack4()
 	self.frame=FRAME_attack4
 	self.nextthink = time + 0.1
 	self.think = f_attack5
+	ai_charge(10)
 end
 function f_attack5()
 	self.frame=FRAME_attack5
 	self.nextthink = time + 0.1
 	self.think = f_attack6
+	ai_charge(10)
 end
 function f_attack6()
 	self.frame=FRAME_attack6
 	self.nextthink = time + 0.1
 	self.think = f_attack7
+	ai_charge(10)
 end
 function f_attack7()
 	self.frame=FRAME_attack7
 	self.nextthink = time + 0.1
 	self.think = f_attack8
+	ai_charge(10)
 end
 function f_attack8()
 	self.frame=FRAME_attack8
 	self.nextthink = time + 0.1
 	self.think = f_attack9
+	ai_charge(10)
 end
 function f_attack9()
 	self.frame=FRAME_attack9
 	self.nextthink = time + 0.1
 	self.think = f_attack10
+	fish_melee()
 end
 function f_attack10()
 	self.frame=FRAME_attack10
 	self.nextthink = time + 0.1
 	self.think = f_attack11
+	ai_charge(10)
 end
 function f_attack11()
 	self.frame=FRAME_attack11
 	self.nextthink = time + 0.1
 	self.think = f_attack12
+	ai_charge(10)
 end
 function f_attack12()
 	self.frame=FRAME_attack12
 	self.nextthink = time + 0.1
 	self.think = f_attack13
+	ai_charge(10)
 end
 function f_attack13()
 	self.frame=FRAME_attack13
 	self.nextthink = time + 0.1
 	self.think = f_attack14
+	ai_charge(10)
 end
 function f_attack14()
 	self.frame=FRAME_attack14
 	self.nextthink = time + 0.1
 	self.think = f_attack15
+	ai_charge(10)
 end
 function f_attack15()
 	self.frame=FRAME_attack15
 	self.nextthink = time + 0.1
 	self.think = f_attack16
+	fish_melee()
 end
 function f_attack16()
 	self.frame=FRAME_attack16
 	self.nextthink = time + 0.1
 	self.think = f_attack17
+	ai_charge(10)
 end
 function f_attack17()
 	self.frame=FRAME_attack17
 	self.nextthink = time + 0.1
 	self.think = f_attack18
+	ai_charge(10)
 end
 function f_attack18()
 	self.frame=FRAME_attack18
 	self.nextthink = time + 0.1
 	self.think = f_run1
+	ai_charge(10)
 end
 
 function f_death1()
 	self.frame=FRAME_death1
 	self.nextthink = time + 0.1
 	self.think = f_death2
+	sound (self, CHAN_VOICE, "fish/death.wav", 1, ATTN_NORM)
 end
 function f_death2()
 	self.frame=FRAME_death2
@@ -479,6 +542,7 @@ function f_death21()
 	self.frame=FRAME_death21
 	self.nextthink = time + 0.1
 	self.think = f_death21
+	self.solid = SOLID_NOT
 end
 
 function f_pain1()
@@ -490,41 +554,49 @@ function f_pain2()
 	self.frame=FRAME_pain2
 	self.nextthink = time + 0.1
 	self.think = f_pain3
+	ai_pain(6)
 end
 function f_pain3()
 	self.frame=FRAME_pain3
 	self.nextthink = time + 0.1
 	self.think = f_pain4
+	ai_pain(6)
 end
 function f_pain4()
 	self.frame=FRAME_pain4
 	self.nextthink = time + 0.1
 	self.think = f_pain5
+	ai_pain(6)
 end
 function f_pain5()
 	self.frame=FRAME_pain5
 	self.nextthink = time + 0.1
 	self.think = f_pain6
+	ai_pain(6)
 end
 function f_pain6()
 	self.frame=FRAME_pain6
 	self.nextthink = time + 0.1
 	self.think = f_pain7
+	ai_pain(6)
 end
 function f_pain7()
 	self.frame=FRAME_pain7
 	self.nextthink = time + 0.1
 	self.think = f_pain8
+	ai_pain(6)
 end
 function f_pain8()
 	self.frame=FRAME_pain8
 	self.nextthink = time + 0.1
 	self.think = f_pain9
+	ai_pain(6)
 end
 function f_pain9()
 	self.frame=FRAME_pain9
 	self.nextthink = time + 0.1
 	self.think = f_run1
+	ai_pain(6)
 end
 
 function fish_pain(attacker, damage) -- entity, float

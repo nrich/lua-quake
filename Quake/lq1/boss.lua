@@ -686,7 +686,7 @@ function boss_death10()
 	self.frame=FRAME_death9
 	self.nextthink = time + 0.1
 	self.think = boss_death10
-	killed_monsters = killed_monsters + 1
+	qc.killed_monsters = qc.killed_monsters + 1
 	WriteByte (MSG_ALL, SVC_KILLEDMONSTER)	-- FIXME: reliable broadcast
 	SUB_UseTargets ()
 	remove (self)
