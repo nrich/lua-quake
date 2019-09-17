@@ -216,12 +216,12 @@ static void l_parse_push_vec3(lua_State *L, const char *keyname, const char *val
         Con_DWarning ("Avoided reading garbage for \"%s\" \"%s\"\n", keyname, value);
         for (; i < 3; i++)
             d[i] = 0.0f;
-
-        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
-        VectorCopy(d, out[0]);
-        luaL_getmetatable(L, GAME_VEC3);
-        lua_setmetatable(L, -2);
     }
+
+    vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
+    VectorCopy(d, out[0]);
+    luaL_getmetatable(L, GAME_VEC3);
+    lua_setmetatable(L, -2);
 }
 
 static void l_SetField(edict_t *ent, const char *keyname, const char *value) {
