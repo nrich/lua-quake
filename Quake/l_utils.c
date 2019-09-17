@@ -190,6 +190,40 @@ static int l_isNumeric(const char * s) {
     return *p == '\0';
 }
 
+static void l_parse_push_vec3(lua_State *L, const char *keyname, const char *value) {
+    char	string[128];
+    char	*v, *w;
+    char	*end;
+    vec3_t	d;
+    int i;
+
+    q_strlcpy (string, value, sizeof(string));
+    end = (char *)string + strlen(string);
+    v = string;
+    w = string;
+
+    for (i = 0; i < 3 && (w <= end); i++) { // ericw -- added (w <= end) check
+        // set v to the next space (or 0 byte), and change that char to a 0 byte
+        while (*v && *v != ' ')
+            v++;
+        *v = 0;
+        ((float *)d)[i] = atof (w);
+        w = v = v+1;
+    }
+    // ericw -- fill remaining elements to 0 in case we hit the end of string
+    // before reading 3 floats.
+    if (i < 3) {
+        Con_DWarning ("Avoided reading garbage for \"%s\" \"%s\"\n", keyname, value);
+        for (; i < 3; i++)
+            d[i] = 0.0f;
+
+        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
+        VectorCopy(d, out[0]);
+        luaL_getmetatable(L, GAME_VEC3);
+        lua_setmetatable(L, -2);
+    }
+}
+
 static void l_SetField(edict_t *ent, const char *keyname, const char *value) {
     int *gameref = (int *)(&ent->v.noise3) + 1;
 
@@ -203,38 +237,9 @@ static void l_SetField(edict_t *ent, const char *keyname, const char *value) {
 
     if (l_isNumeric(value)) {
         lua_pushnumber(state, atof(value));
-    } else if (value[0] == '\'') {
-        char	string[128];
-        char	*v, *w;
-        char	*end;
-        vec3_t	d;
-        int i;
-
-        q_strlcpy (string, value, sizeof(string));
-        end = (char *)string + strlen(string);
-        v = string;
-        w = string;
-
-        for (i = 0; i < 3 && (w <= end); i++) { // ericw -- added (w <= end) check
-            // set v to the next space (or 0 byte), and change that char to a 0 byte
-            while (*v && *v != ' ')
-                v++;
-            *v = 0;
-            ((float *)d)[i] = atof (w);
-            w = v = v+1;
-        }
-        // ericw -- fill remaining elements to 0 in case we hit the end of string
-        // before reading 3 floats.
-        if (i < 3) {
-            Con_DWarning ("Avoided reading garbage for \"%s\" \"%s\"\n", keyname, value);
-            for (; i < 3; i++)
-                d[i] = 0.0f;
-
-            vec3_t *out = lua_newuserdata(state, sizeof(vec3_t));
-            VectorCopy(d, out[0]);
-            luaL_getmetatable(state, GAME_VEC3);
-            lua_setmetatable(state, -2);
-        }
+    } else if (q_strncasecmp(keyname, "mangle", 6) == 0 ) {
+        Con_SafePrintf("l_SetField: %s %s\n", keyname, value);
+        l_parse_push_vec3(state, keyname, value);
     } else {
         lua_pushstring(state, value);
     }
