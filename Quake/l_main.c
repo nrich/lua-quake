@@ -413,9 +413,8 @@ void LoadProgs(void) {
 
     end = &scriptdir[strlen(scriptdir)-4];
 
-    Con_SafePrintf("ERROR %s\n", end);
-
     if (q_strncasecmp(end, "/id1", 4) == 0) {
+        // id1 => lq1
         end[1] = 'l';
         end[2] = 'q';
     }
