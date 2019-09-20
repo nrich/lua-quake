@@ -319,9 +319,10 @@ static void l_init(char *path) {
     char compiledname[1024];
 
     // TODO fix reload
-    if (loaded)
-        return;
-    loaded = 1;
+    if (state) {
+        lua_close(state);
+        state = NULL;
+    }
 
     if (!state)
         state = luaL_newstate();
