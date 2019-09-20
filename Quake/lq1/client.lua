@@ -112,7 +112,7 @@ function FindIntermission()
 	local cyc; -- float
 
 -- look for info_intermission first
-	spot = find (world, classname, "info_intermission")
+	spot = find (world, "classname", "info_intermission")
 	if spot ~= world then -- TODO check condition
 		cyc = random() * 4
 		while cyc > 1 do -- TODO check condition
@@ -146,7 +146,7 @@ function GotoNextMap()
 	if cvar("samelevel") ~= 0 then -- TODO check condition
 		changelevel (qc.mapname)
 	else
-		changelevel (qc.nextmap)
+		changelevel (nextmap)
         end
 end
 
@@ -207,12 +207,12 @@ function ExitIntermission()
 	end
 	
 	if intermission_running == 3 then -- TODO check condition
-		if  not cvar("registered") then -- TODO check condition
+		if  cvar("registered") == 0 then -- TODO check condition
 			WriteByte (MSG_ALL, SVC_SELLSCREEN)
 			return
 		end
 		
-		if  (serverflags&15) == 15 then -- TODO check condition
+		if  (qc.serverflags&15) == 15 then -- TODO check condition
 			WriteByte (MSG_ALL, SVC_FINALE)
 			WriteString (MSG_ALL, "Now, you have all four Runes. You sense\ntremendous invisible forces moving to\nunseal ancient barriers. Shub-Niggurath\nhad hoped to use the Runes Herself to\nclear off the Earth, but now instead,\nyou will use them to enter her home and\nconfront her as an avatar of avenging\nEarth-life. If you defeat her, you will\nbe remembered forever as the savior of\nthe planet. If she conquers, it will be\nas if you had never been born.")
 			return
@@ -260,7 +260,7 @@ function execute_changelevel()
 	
 	pos = FindIntermission ()
 
-	other = find (world, classname, "player")
+	other = find (world, "classname", "player")
 	while other ~= world do -- TODO check condition
 		other.view_ofs = vec3(0, 0, 0)
 		other.v_angle = pos.mangle
@@ -272,7 +272,7 @@ function execute_changelevel()
 		other.movetype = MOVETYPE_NONE
 		other.modelindex = 0
 		setorigin (other, pos.origin)
-		other = find (other, classname, "player")
+		other = find (other, "classname", "player")
 	end
 
 	WriteByte (MSG_ALL, SVC_INTERMISSION)
@@ -286,7 +286,7 @@ function changelevel_touch()
 		return
         end
 
-	if cvar("noexit") then -- TODO check condition
+	if cvar("noexit") == 1 then -- TODO check condition
 		T_Damage (other, self, self, 50000)
 		return
 	end
