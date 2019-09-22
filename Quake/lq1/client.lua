@@ -698,7 +698,7 @@ function PlayerDeathThink()
 	end
 
 -- wait for any button down
-	if  not self.button2 == 0 and   not self.button1 == 0 and   not self.button0 == 0 then -- TODO check condition
+	if  self.button2 ~= 0 and self.button1 ~= 0 and  self.button0 ~= 0 then -- TODO check condition
 		return
         end
 
