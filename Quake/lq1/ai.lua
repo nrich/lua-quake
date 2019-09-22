@@ -215,7 +215,7 @@ function infront(targ) -- entity
 	
 	makevectors (self.angles)
 	vec = normalize (targ.origin - self.origin)
-	dot = vec % qc.v_forward
+	dot = vec * qc.v_forward
 	
 	if  dot > 0.3 then -- TODO check condition
 		return true

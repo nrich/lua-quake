@@ -514,7 +514,7 @@ function func_door()
         end
 
 	self.pos1 = self.origin
-	self.pos2 = self.pos1 + self.movedir*(fabs(self.movedir%self.size) - self.lip)
+	self.pos2 = self.pos1 + self.movedir*(fabs(self.movedir*self.size) - self.lip)
 
 -- DOOR_START_OPEN is to allow an entity to be lighted in the closed position
 -- but spawn in the open position
@@ -589,14 +589,14 @@ function fd_secret_use()
 	
 	if  not self.t_width or self.t_width == 0 then -- TODO check condition
 		if self.spawnflags & SECRET_1ST_DOWN == SECRET_1ST_DOWN then -- TODO check condition
-			self. t_width = fabs(qc.v_up % self.size)
+			self. t_width = fabs(qc.v_up * self.size)
 		else
-			self. t_width = fabs(qc.v_right % self.size)
+			self. t_width = fabs(qc.v_right * self.size)
                 end
 	end
 		
 	if  not self.t_length or self.t_length == 0 then -- TODO check condition
-		self. t_length = fabs(qc.v_forward % self.size)
+		self. t_length = fabs(qc.v_forward * self.size)
         end
 
 	if self.spawnflags & SECRET_1ST_DOWN == SECRET_1ST_DOWN then -- TODO check condition

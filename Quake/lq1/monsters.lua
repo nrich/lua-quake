@@ -102,7 +102,7 @@ function walkmonster_start_go()
 	
 	self.takedamage = DAMAGE_AIM
 
-	self.ideal_yaw = self.angles % vec3(0, 1, 0)
+	self.ideal_yaw = self.angles * vec3(0, 1, 0)
 	if  not self.yaw_speed or self.yaw_speed == 0 then -- TODO check condition
 		self.yaw_speed = 20
         end
@@ -153,7 +153,7 @@ end
 function flymonster_start_go()
 	self.takedamage = DAMAGE_AIM
 
-	self.ideal_yaw = self.angles % vec3(0, 1, 0)
+	self.ideal_yaw = self.angles * vec3(0, 1, 0)
 	if  not self.yaw_speed or self.yaw_speed == 0 then -- TODO check condition
 		self.yaw_speed = 10
         end
@@ -207,7 +207,7 @@ function swimmonster_start_go()
 	self.takedamage = DAMAGE_AIM
 	qc.total_monsters = qc.total_monsters + 1
 
-	self.ideal_yaw = self.angles % vec3(0, 1, 0)
+	self.ideal_yaw = self.angles * vec3(0, 1, 0)
 	if  not self.yaw_speed or self.yaw_speed == 0 then -- TODO check condition
 		self.yaw_speed = 10
         end

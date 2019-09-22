@@ -68,11 +68,14 @@ static int l_vec3_sub(lua_State *L) {
     return 1;
 }
 
+static int l_vec3_dot(lua_State *L);
 static int l_vec3_mul(lua_State *L) {
     vec3_t *in;
     vec_t mul;
 
-    if (lua_isuserdata(L, 1)) {
+    if (lua_isuserdata(L, 1) && lua_isuserdata(L, 2)) {
+        return l_vec3_dot(L);
+    } else if (lua_isuserdata(L, 1)) {
         in = luaL_checkudata(L, 1, GAME_VEC3);
         mul = luaL_checknumber(L, 2);
     } else if (lua_isuserdata(L, 2)) {

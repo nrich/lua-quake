@@ -96,7 +96,7 @@ function multi_touch()
 -- if the trigger has an angles field, check player's facing direction
 	if self.movedir() ~= vec3(0, 0, 0) then -- TODO check condition
 		makevectors (other.angles)
-		if qc.v_forward % self.movedir < 0 then -- TODO check condition
+		if qc.v_forward * self.movedir < 0 then -- TODO check condition
 			return		-- not facing the right way
                 end
 	end
