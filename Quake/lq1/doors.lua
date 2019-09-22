@@ -447,7 +447,7 @@ function func_door()
 		self.noise3 = "doors/basetry.wav"
 		self.noise4 = "doors/baseuse.wav"
 	else
-		dprint ("no worldtype set not \n")
+		dprint ("no worldtype set!\n")
 	end
 	if self.sounds == 0 then -- TODO check condition
 		precache_sound ("misc/null.wav")

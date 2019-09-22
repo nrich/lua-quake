@@ -197,7 +197,7 @@ function trigger_secret()
 	qc.total_secrets = qc.total_secrets + 1
 	self.wait = -1
 	if  self.message == "" then -- TODO check condition
-		self.message = "You found a secret area not "
+		self.message = "You found a secret area!"
         end
 	if  self.sounds == 0 then -- TODO check condition
 		self.sounds = 1
@@ -241,7 +241,7 @@ function counter_use()
 	end
 	
 	if (activator.classname == "player" and  (self.spawnflags & SPAWNFLAG_NOMESSAGE) == 0) then
-		centerprint(activator, "Sequence completed not ")
+		centerprint(activator, "Sequence completed!")
         end
 	self.enemy = activator
 	multi_trigger ()

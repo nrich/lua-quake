@@ -84,7 +84,7 @@ function SUB_CalcMove(tdest, tspeed, func) -- vector, float, void()
         local len, traveltime; -- float
 
 	if tspeed == 0 then -- TODO check condition
-		objerror("No speed is defined not ")
+		objerror("No speed is defined!")
         end
 
 	self.think1 = func
@@ -157,7 +157,7 @@ function SUB_CalcAngleMove(destangle, tspeed, func) -- vector, float, void()
         local len, traveltime; -- float
 
 	if  not tspeed or tspeed == 0 then -- TODO check condition
-		objerror("No speed is defined not ")
+		objerror("No speed is defined!")
         end
 		
 -- set destdelta to the vector needed to move

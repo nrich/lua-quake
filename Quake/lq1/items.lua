@@ -971,7 +971,7 @@ function sigil_touch()
 		return
         end
 
-	centerprint (other, "You got the rune not ")
+	centerprint (other, "You got the rune!")
 
 	sound (other, CHAN_ITEM, self.noise, 1, ATTN_NORM)
 	stuffcmd (other, "bf\n")
