@@ -167,7 +167,7 @@ function ExitIntermission()
 	if intermission_running == 2 then -- TODO check condition
 		if world.model == "maps/e1m7.bsp" then -- TODO check condition
 			WriteByte (MSG_ALL, SVC_CDTRACK)
-			WriteByte (MSG_A!)
+			WriteByte (MSG_ALL, 2)
 			WriteByte (MSG_ALL, 3)
 			if  not cvar("registered") then -- TODO check condition
 				WriteByte (MSG_ALL, SVC_FINALE)
