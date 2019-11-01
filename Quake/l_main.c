@@ -313,7 +313,7 @@ static int l_set_gamepath(lua_State* L, const char* path) {
     return 0;
 }
 
-static void l_init(char *path) {
+static const char *l_init(char *path) {
     static int loaded = 0;
     char scriptname[1024];
     char compiledname[1024];
@@ -328,7 +328,7 @@ static void l_init(char *path) {
         state = luaL_newstate();
 
     if (!state)
-        Sys_Error("Could not load state\n");
+        return "Could not load state\n";
 
     strncpy(scriptname, path, sizeof(scriptname));
     strncpy(compiledname, path, sizeof(compiledname));
@@ -390,11 +390,14 @@ static void l_init(char *path) {
 
     if (luaL_dofile(state, compiledname) != 0) {
         Con_SafePrintf("Could not execute lua chunkfile '%s'\n", lua_tostring(state, -1));
-        if (luaL_dofile(state, scriptname) != 0)
-            Sys_Error("Could not execute lua script '%s'\n", lua_tostring(state, -1));
+        if (luaL_dofile(state, scriptname) != 0) {
+            Con_SafePrintf("Could not execute lua script '%s'\n", lua_tostring(state, -1));
+            return "Could not load lua chunkfile or script";
+        }
     }
 
     use_luaVM = 1;
+    return NULL;
 }
 
 void ExecuteProgram(func_t func) {
@@ -409,6 +412,7 @@ void LoadProgs(void) {
     //PR_LoadProgs();
     char scriptdir[sizeof(com_gamedir)];
     char *end;
+    const char *err;
 
     strncpy(scriptdir, com_gamedir, sizeof(scriptdir));
 
@@ -418,8 +422,19 @@ void LoadProgs(void) {
         // id1 => lq1
         end[1] = 'l';
         end[2] = 'q';
+
+        err = l_init(scriptdir);
+
+        if (!err) {
+            return;
+        }
+
+        end[1] = 'i';
+        end[2] = 'd';
     }
 
-    l_init(scriptdir);
+    err = l_init(scriptdir);
+    if (err)
+        Sys_Error(err);
 }
 
