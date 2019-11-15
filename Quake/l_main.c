@@ -429,6 +429,7 @@ void LoadProgs(void) {
             return;
         }
 
+        // lq1 => id1
         end[1] = 'i';
         end[2] = 'd';
     }
