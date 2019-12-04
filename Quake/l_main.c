@@ -165,7 +165,7 @@ void l_ExecuteProgram(func_t func) {
         lua_pushnumber(state, pr_global_struct->time);
         lua_setglobal(state, "time");
 
-#if 0
+#if 1
         if (pr_global_struct->self > 0) {
             int *self = lua_newuserdata(state, sizeof(int));
             self[0] = pr_global_struct->self;
@@ -185,6 +185,7 @@ void l_ExecuteProgram(func_t func) {
 
             nargs++;
         }
+        //Con_SafePrintf("l_ExecuteProgram: Self is %d, other is %d, nargs %d\n", pr_global_struct->self, pr_global_struct->other, nargs);
 #endif
 
         lua_call(state, nargs, 0);      /* call function with self,other arguments and 0 result */
@@ -193,20 +194,33 @@ void l_ExecuteProgram(func_t func) {
     }
 }
 
-static void init_field_def(unsigned short type, const char *fieldname) {
-    static int i = 0;
-    static int ofs = 0;
+/*
+static void init_field_def(unsigned short type, const char *fieldname, int *ofs, int *count) {
+    defs[*count].type = type;
+    defs[*count].ofs = ofs;
+    defs[*count].s_name = 0;
 
-    defs[i].type = type;
-    defs[i].ofs = ofs;
-    defs[i].s_name = 0;
-
-    i++;
-    ofs += type_size[type];
+    *count++;
+    *ofs += type_size[type];
 }
+*/
+
+
 
 static void init_field_defs() {
-    init_field_def(ev_float, "modelindex"); 
+    int count = 0;
+    int ofs = 0;
+
+#define init_field_def(itype, name)\
+{\
+defs[count].type = itype;\
+defs[count].ofs = ofs;\
+defs[count].s_name = 0;\
+count++;\
+ofs += type_size[itype];\
+}
+
+    init_field_def(ev_float, "modelindex");
     init_field_def(ev_vector, "absmin"); 
     init_field_def(ev_vector, "absmax"); 
     init_field_def(ev_float, "ltime"); 
