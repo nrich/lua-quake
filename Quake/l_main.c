@@ -208,15 +208,15 @@ static void init_field_def(unsigned short type, const char *fieldname, int *ofs,
 
 
 static void init_field_defs() {
-    int count = 0;
+    int i = 0;
     int ofs = 0;
 
 #define init_field_def(itype, name)\
 {\
-defs[count].type = itype;\
-defs[count].ofs = ofs;\
-defs[count].s_name = 0;\
-count++;\
+defs[i].type = itype;\
+defs[i].ofs = ofs;\
+defs[i].s_name = 0;\
+i++;\
 ofs += type_size[itype];\
 }
 
@@ -328,7 +328,6 @@ static int l_set_gamepath(lua_State* L, const char* path) {
 }
 
 static const char *l_init(char *path) {
-    static int loaded = 0;
     char scriptname[1024];
     char compiledname[1024];
 
@@ -398,7 +397,7 @@ static const char *l_init(char *path) {
 
     lua_setglobal(state, GAME_NAMESPACE);
 
-//    lua_atpanic(state, &l_custom_lua_atpanic);
+    lua_atpanic(state, &l_custom_lua_atpanic);
 
     l_set_gamepath(state, path);
 
