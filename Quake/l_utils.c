@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 const char *PR_GetString (int num);
 ddef_t *l_find_def(const char *fieldname);
 int l_GetStringRef(const char *string);
+void ED_LoadFromFile (const char *data);
 
 static char stringpool[1024 * 1024 * 10];
 

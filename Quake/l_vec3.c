@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "q_stdinc.h"
+#include "sys.h"
 #include "l_common.h"
 #include "q_stdinc.h"
 #include "mathlib.h"
