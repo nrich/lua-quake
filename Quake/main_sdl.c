@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#include <gl4esinit.h>
 #endif
 
 #if defined(USE_SDL2)
@@ -136,6 +137,10 @@ int main(int argc, char *argv[])
 	host_parms = &parms;
 	parms.basedir = ".";
 
+#ifdef __EMSCRIPTEN__
+        initialize_gl4es();
+#endif
+
 	parms.argc = argc;
 	parms.argv = argv;
 
@@ -146,7 +151,6 @@ int main(int argc, char *argv[])
 	isDedicated = (COM_CheckParm("-dedicated") != 0);
 
 	Sys_InitSDL ();
-
 	Sys_Init();
 
 	parms.memsize = DEFAULT_MEMORY;
