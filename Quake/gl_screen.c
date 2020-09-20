@@ -97,7 +97,7 @@ cvar_t		scr_showram = {"showram","1",CVAR_NONE};
 cvar_t		scr_showturtle = {"showturtle","0",CVAR_NONE};
 cvar_t		scr_showpause = {"showpause","1",CVAR_NONE};
 cvar_t		scr_printspeed = {"scr_printspeed","8",CVAR_NONE};
-cvar_t		gl_triplebuffer = {"gl_triplebuffer", "1", CVAR_ARCHIVE};
+cvar_t		gl_triplebuffer = {"gl_triplebuffer", "0", CVAR_ARCHIVE};
 
 extern	cvar_t	crosshair;
 
@@ -1087,6 +1087,7 @@ void SCR_UpdateScreen (void)
 
 	if (scr_drawdialog) //new game confirm
 	{
+        Con_Printf ("SCR_UpdateScreen 5a\n");
 		if (con_forcedup)
 			Draw_ConsoleBackground ();
 		else
@@ -1096,20 +1097,24 @@ void SCR_UpdateScreen (void)
 	}
 	else if (scr_drawloading) //loading
 	{
+        Con_Printf ("SCR_UpdateScreen 5b\n");
 		SCR_DrawLoading ();
 		Sbar_Draw ();
 	}
 	else if (cl.intermission == 1 && key_dest == key_game) //end of level
 	{
+        Con_Printf ("SCR_UpdateScreen 5c\n");
 		Sbar_IntermissionOverlay ();
 	}
 	else if (cl.intermission == 2 && key_dest == key_game) //end of episode
 	{
+        Con_Printf ("SCR_UpdateScreen 5d\n");
 		Sbar_FinaleOverlay ();
 		SCR_CheckDrawCenterString ();
 	}
 	else
 	{
+//        Con_Printf ("SCR_UpdateScreen 5e\n");
 		SCR_DrawCrosshair (); //johnfitz
 		SCR_DrawRam ();
 		SCR_DrawNet ();

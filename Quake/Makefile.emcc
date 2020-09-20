@@ -45,17 +45,17 @@ DEBUG   ?= 0
 CC ?= emcc
 LINKER = $(CC)
 
-STRIP ?= strip
+STRIP ?= true
 
 #CPUFLAGS= -mtune=i686
 #CPUFLAGS= -march=pentium4
 #CPUFLAGS= -mtune=k8
 #CPUFLAGS= -march=atom
 CPUFLAGS=
-LDFLAGS = -L/tmp/lua-5.3.5/src -llua
+LDFLAGS = -L $(HOME)/lua-5.3.5/src -llua
 DFLAGS ?=
 CFLAGS ?= -Wall -Wno-trigraphs
-CFLAGS += -I /tmp/lua-5.3.5/ $(CPUFLAGS)
+CFLAGS += -I $(HOME)/lua-5.3.5/ $(CPUFLAGS)
 ifneq ($(DEBUG),0)
 DFLAGS += -DDEBUG
 CFLAGS += -g
@@ -100,9 +100,9 @@ CFLAGS += -DUSE_SDL2
 endif
 
 ifeq ($(USE_SDL2),1)
-SDL_CONFIG ?= /home/nrich/emsdk/upstream/emscripten/system/bin/sdl2-config
+SDL_CONFIG ?= $(EMSDK)/upstream/emscripten/system/bin/sdl2-config
 else
-SDL_CONFIG ?= /home/nrich/emsdk/upstream/emscripten/system/bin/sdl-config
+SDL_CONFIG ?= $(EMSDK)/upstream/emscripten/system/bin/sdl-config
 endif
 SDL_CFLAGS := $(shell $(SDL_CONFIG) --cflags)
 SDL_LIBS   := $(shell $(SDL_CONFIG) --libs)
@@ -215,7 +215,7 @@ SYSOBJ_SND := snd_sdl.o
 SYSOBJ_CDA := cd_null.o
 SYSOBJ_INPUT := in_sdl.o
 SYSOBJ_GL_VID:= gl_vidsdl.o
-SYSOBJ_NET := net_bsd.o net_udp.o 
+SYSOBJ_NET := net_null.o
 SYSOBJ_SYS := pl_linux.o sys_sdl_unix.o
 SYSOBJ_MAIN:= main_sdl.o
 SYSOBJ_RES :=
@@ -296,9 +296,15 @@ OBJS := strlcat.o \
 # Linux build rules
 # ------------------------
 
+quakespasm.js:	$(OBJS)
+	#$(LINKER) -s WASM=1 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@
+	$(LINKER) -s NODERAWFS=1 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=1 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -LSDL -o $@
+	$(call do_strip,$@)
+
+
 quakespasm.html:	$(OBJS)
 	#$(LINKER) -s WASM=1 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@
-	$(LINKER) -s SOCKET_WEBRTC=1 -s NODERAWFS=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=1 -s LEGACY_GL_EMULATION=1 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -LSDL -o $@ --preload-file id1/
+	$(LINKER) -s GL_UNSAFE_OPTS=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=1 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -LSDL -o $@ --preload-file lq1/ --preload-file id1/
 	$(call do_strip,$@)
 
 image.o: lodepng.c lodepng.h stb_image_write.h

@@ -1,52 +1,30 @@
---    Copyright (C) 2019 Neil Richardson (nrich@neiltopia.com)
---
---    This program is free software you can redistribute it and/or modify
---    it under the terms of the GNU General Public License as published by
---    the Free Software Foundation either version 2 of the License, or
---    (at your option) any later version.
---
---    This program is distributed in the hope that it will be useful,
---    but WITHOUT ANY WARRANTY without even the implied warranty of
---    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---    GNU General Public License for more details.
---
---    You should have received a copy of the GNU General Public License
---    along with this program if not, write to the Free Software
---    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
---
---    See file, 'COPYING', for details.
+local function SelectSpawnPoint()
+    local spot = find (world, "classname", "info_player_start")
+    if  spot == world then
+        error ("PutClientInServer: no info_player_start on level")
+    end
 
-require('defs')
+    return spot
+end
 
-require('ai')
-require('boss')
-require('buttons')
-require('client')
-require('combat')
-require('defs')
-require('demon')
-require('dog')
-require('enforcer')
-require('doors')
-require('fight')
-require('fish')
-require('hknight')
-require('items')
-require('knight')
-require('misc')
-require('monsters')
-require('ogre')
-require('plats')
-require('player')
-require('shalrath')
-require('shambler')
-require('soldier')
-require('subs')
-require('tarbaby')
-require('triggers')
-require('weapons')
-require('wizard')
-require('world')
-require('zombie')
+qc.PutClientInServer = function()
+    self.health = 100
+    self.solid = 3 -- SOLID_SLIDEBOX
+    self.movetype = 3 -- MOVETYPE_WALK
+    self.flags = 8 -- FL_CLIENT
+    self.effects = 0
 
---monster_ogre = monster_tarbaby
+    local spot = SelectSpawnPoint()
+    self.origin = spot.origin + vec3(0, 0, 1)
+    self.angles = spot.angles
+    self.fixangle = true           -- turn this way immediately
+
+    setmodel(self, "progs/player.mdl")
+
+    setsize(self, vec3(-16, -16, -24), vec3(16, 16, 24))
+    self.view_ofs = vec3(0, 0, 22)
+end
+
+function worldspawn()
+    precache_model ("progs/player.mdl")
+end

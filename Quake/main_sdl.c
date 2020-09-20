@@ -33,6 +33,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 #include <stdio.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #if defined(USE_SDL2)
 
 /* need at least SDL_2.0.0 */
@@ -53,6 +57,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SDL_NEW_VERSION_REJECT	(SDL_VERSIONNUM(1,3,0))
 
 #endif
+
+double		Time, OldTime, NewTime;
 
 static void Sys_AtExit (void)
 {
@@ -97,11 +103,36 @@ static quakeparms_t	parms;
 #define main SDL_main
 #endif
 
+void do_loop() {
+        /* If we have no input focus at all, sleep a bit */
+        if (!VID_HasMouseOrInputFocus() || cl.paused)
+        {
+                SDL_Delay(16);
+        }
+        /* If we're minimised, sleep a bit more */
+        if (VID_IsMinimized())
+        {
+                scr_skipupdate = 1;
+                SDL_Delay(32);
+        }
+        else
+        {
+                scr_skipupdate = 0;
+        }
+        NewTime = Sys_DoubleTime ();
+        Time = NewTime - OldTime;
+
+        Host_Frame (Time);
+
+        if (Time < sys_throttle.value && !cls.timedemo)
+                SDL_Delay(1);
+
+        OldTime = NewTime;
+}
+
 int main(int argc, char *argv[])
 {
-	int		t;
-	double		time, oldtime, newtime;
-
+        int		t;
 	host_parms = &parms;
 	parms.basedir = ".";
 
@@ -140,53 +171,34 @@ int main(int argc, char *argv[])
 	Sys_Printf("Host_Init\n");
 	Host_Init();
 
-	oldtime = Sys_DoubleTime();
+	OldTime = Sys_DoubleTime();
 	if (isDedicated)
 	{
 		while (1)
 		{
-			newtime = Sys_DoubleTime ();
-			time = newtime - oldtime;
+			NewTime = Sys_DoubleTime ();
+			Time = NewTime - OldTime;
 
-			while (time < sys_ticrate.value )
+			while (Time < sys_ticrate.value )
 			{
 				SDL_Delay(1);
-				newtime = Sys_DoubleTime ();
-				time = newtime - oldtime;
+				NewTime = Sys_DoubleTime ();
+				Time = NewTime - OldTime;
 			}
 
-			Host_Frame (time);
-			oldtime = newtime;
+			Host_Frame (Time);
+			OldTime = NewTime;
 		}
 	}
 	else
+#ifdef __EMSCRIPTEN__
+         emscripten_set_main_loop(do_loop,0,0);
+#else
 	while (1)
 	{
-		/* If we have no input focus at all, sleep a bit */
-		if (!VID_HasMouseOrInputFocus() || cl.paused)
-		{
-			SDL_Delay(16);
-		}
-		/* If we're minimised, sleep a bit more */
-		if (VID_IsMinimized())
-		{
-			scr_skipupdate = 1;
-			SDL_Delay(32);
-		}
-		else
-		{
-			scr_skipupdate = 0;
-		}
-		newtime = Sys_DoubleTime ();
-		time = newtime - oldtime;
-
-		Host_Frame (time);
-
-		if (time < sys_throttle.value && !cls.timedemo)
-			SDL_Delay(1);
-
-		oldtime = newtime;
+            do_loop();
 	}
+#endif
 
 	return 0;
 }
