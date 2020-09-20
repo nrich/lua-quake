@@ -52,10 +52,10 @@ STRIP ?= true
 #CPUFLAGS= -mtune=k8
 #CPUFLAGS= -march=atom
 CPUFLAGS=
-LDFLAGS = -L $(HOME)/lua-5.3.5/src -llua
+LDFLAGS = -L$(HOME)/lua-5.3.5/src -L$(HOME)/gl4es/lib
 DFLAGS ?=
 CFLAGS ?= -Wall -Wno-trigraphs
-CFLAGS += -I $(HOME)/lua-5.3.5/ $(CPUFLAGS)
+CFLAGS += -I$(HOME)/lua-5.3.5/ -I$(HOME)/gl4es/include $(CPUFLAGS)
 ifneq ($(DEBUG),0)
 DFLAGS += -DDEBUG
 CFLAGS += -g
@@ -177,7 +177,8 @@ CFLAGS+= -DUSE_CODEC_UMX
 endif
 
 #COMMON_LIBS:= -lm -lGL
-COMMON_LIBS:=
+#COMMON_LIBS:= -llua -lGL 
+COMMON_LIBS:= -llua -lGL 
 
 LIBS := $(COMMON_LIBS) $(NET_LIBS) $(CODECLIBS)
 
@@ -296,15 +297,9 @@ OBJS := strlcat.o \
 # Linux build rules
 # ------------------------
 
-quakespasm.js:	$(OBJS)
-	#$(LINKER) -s WASM=1 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@
-	$(LINKER) -s NODERAWFS=1 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=1 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -LSDL -o $@
-	$(call do_strip,$@)
-
-
 quakespasm.html:	$(OBJS)
 	#$(LINKER) -s WASM=1 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@
-	$(LINKER) -s GL_UNSAFE_OPTS=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=1 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -LSDL -o $@ --preload-file lq1/ --preload-file id1/
+	$(LINKER) -DLIBGL_GL=15 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --preload-file lq1/ --preload-file id1/
 	$(call do_strip,$@)
 
 image.o: lodepng.c lodepng.h stb_image_write.h
