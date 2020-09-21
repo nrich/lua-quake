@@ -299,7 +299,7 @@ OBJS := strlcat.o \
 
 quakespasm.html:	$(OBJS)
 	#$(LINKER) -s WASM=1 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@
-	$(LINKER) -DLIBGL_GL=15 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --preload-file lq1/ --preload-file id1/
+	$(LINKER) -s EXIT_RUNTIME=1 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=2 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --preload-file lq1/ --preload-file id1/
 	$(call do_strip,$@)
 
 image.o: lodepng.c lodepng.h stb_image_write.h

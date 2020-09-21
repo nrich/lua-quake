@@ -226,13 +226,16 @@ typedef struct
 #if defined(SDL_FRAMEWORK) || defined(NO_SDL_CONFIG)
 #if defined(USE_SDL2)
 #include <SDL2/SDL.h>
+#include <GL/gl.h>
 #include <SDL2/SDL_opengl.h>
 #else
 #include <SDL/SDL.h>
+#include <GL/gl.h>
 #include <SDL/SDL_opengl.h>
 #endif
 #else
 #include "SDL.h"
+#include <GL/gl.h>
 #include "SDL_opengl.h"
 #endif
 #ifndef APIENTRY
