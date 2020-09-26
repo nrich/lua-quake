@@ -25,6 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "quakedef.h"
 
+#ifdef __EMSCRIPTEN__
+#include <gl4eshint.h>
+#endif
+
+
 /*
 
 background clear
@@ -1110,6 +1115,10 @@ void SCR_UpdateScreen (void)
 	}
 	else
 	{
+#ifdef __EMSCRIPTEN__
+        glHint(GL_BEGINEND_HINT_GL4ES, 0);
+#endif
+
 		SCR_DrawCrosshair (); //johnfitz
 		SCR_DrawRam ();
 		SCR_DrawNet ();
@@ -1122,6 +1131,9 @@ void SCR_UpdateScreen (void)
 		SCR_DrawClock (); //johnfitz
 		SCR_DrawConsole ();
 		M_Draw ();
+#ifdef __EMSCRIPTEN__
+        glHint(GL_BEGINEND_HINT_GL4ES, 1);
+#endif
 	}
 
 	V_UpdateBlend (); //johnfitz -- V_UpdatePalette cleaned up and renamed
