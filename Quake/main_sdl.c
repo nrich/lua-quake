@@ -55,7 +55,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SDL_MIN_Z	10
 #define SDL_REQUIREDVERSION	(SDL_VERSIONNUM(SDL_MIN_X,SDL_MIN_Y,SDL_MIN_Z))
 /* reject 1.3.0 and newer at runtime. */
-#define SDL_NEW_VERSION_REJECT	(SDL_VERSIONNUM(1,3,0))
+#define SDL_NEW_VERSION_REJECT	(SDL_VERSIONNUM(1,4,0))
 
 #endif
 
@@ -108,13 +108,13 @@ void do_loop() {
         /* If we have no input focus at all, sleep a bit */
         if (!VID_HasMouseOrInputFocus() || cl.paused)
         {
-                SDL_Delay(16);
+                //SDL_Delay(16);
         }
         /* If we're minimised, sleep a bit more */
         if (VID_IsMinimized())
         {
                 scr_skipupdate = 1;
-                SDL_Delay(32);
+                //SDL_Delay(32);
         }
         else
         {
@@ -126,7 +126,7 @@ void do_loop() {
         Host_Frame (Time);
 
         if (Time < sys_throttle.value && !cls.timedemo)
-                SDL_Delay(1);
+                1;//SDL_Delay(1);
 
         OldTime = NewTime;
 }
@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
 
 			while (Time < sys_ticrate.value )
 			{
-				SDL_Delay(1);
+				//SDL_Delay(1);
 				NewTime = Sys_DoubleTime ();
 				Time = NewTime - OldTime;
 			}

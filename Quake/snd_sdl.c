@@ -121,6 +121,7 @@ qboolean SNDDMA_Init (dma_t *dma)
 	case AUDIO_S8:		/* maybe needed by AHI */
 	case AUDIO_U8:
 	case AUDIO_S16SYS:
+        case AUDIO_F32LSB:
 		/* Supported */
 		break;
 	default:

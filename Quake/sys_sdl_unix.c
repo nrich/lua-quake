@@ -463,8 +463,8 @@ const char *Sys_ConsoleInput (void)
 
 void Sys_Sleep (unsigned long msecs)
 {
-/*	usleep (msecs * 1000);*/
-	SDL_Delay (msecs);
+//	usleep (msecs * 1000);
+//	SDL_Delay (msecs);
 }
 
 void Sys_SendKeyEvents (void)

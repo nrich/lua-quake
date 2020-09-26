@@ -95,7 +95,7 @@ static int SDLCALL IN_FilterMouseEvents (const SDL_Event *event)
 	return 1;
 }
 
-#if defined(USE_SDL2)
+#if defined(USE_SDL2) || SDL_VERSION_ATLEAST(1,4,0)
 static int SDLCALL IN_SDL2_FilterMouseEvents (void *userdata, SDL_Event *event)
 {
 	return IN_FilterMouseEvents (event);
@@ -104,7 +104,7 @@ static int SDLCALL IN_SDL2_FilterMouseEvents (void *userdata, SDL_Event *event)
 
 static void IN_BeginIgnoringMouseEvents(void)
 {
-#if defined(USE_SDL2)
+#if defined(USE_SDL2) || SDL_VERSION_ATLEAST(1,4,0)
 	SDL_EventFilter currentFilter = NULL;
 	void *currentUserdata = NULL;
 	SDL_GetEventFilter(&currentFilter, &currentUserdata);
@@ -112,21 +112,21 @@ static void IN_BeginIgnoringMouseEvents(void)
 	if (currentFilter != IN_SDL2_FilterMouseEvents)
 		SDL_SetEventFilter(IN_SDL2_FilterMouseEvents, NULL);
 #else
-	if (SDL_GetEventFilter() != IN_FilterMouseEvents)
-		SDL_SetEventFilter(IN_FilterMouseEvents);
+//	if (SDL_GetEventFilter() != IN_FilterMouseEvents)
+//		SDL_SetEventFilter(IN_FilterMouseEvents);
 #endif
 }
 
 static void IN_EndIgnoringMouseEvents(void)
 {
-#if defined(USE_SDL2)
+#if defined(USE_SDL2) || SDL_VERSION_ATLEAST(1,4,0)
 	SDL_EventFilter currentFilter;
 	void *currentUserdata;
 	if (SDL_GetEventFilter(&currentFilter, &currentUserdata) == SDL_TRUE)
 		SDL_SetEventFilter(NULL, NULL);
 #else
-	if (SDL_GetEventFilter() != NULL)
-		SDL_SetEventFilter(NULL);
+//	if (SDL_GetEventFilter() != NULL)
+//		SDL_SetEventFilter(NULL);
 #endif
 }
 
@@ -775,6 +775,11 @@ void IN_UpdateInputMode (void)
 }
 
 #if !defined(USE_SDL2)
+
+#ifndef SDLK_WORLD_18
+#define SDLK_WORLD_18 178
+#endif
+
 static inline int IN_SDL_KeysymToQuakeKey(SDLKey sym)
 {
 	if (sym > SDLK_SPACE && sym < SDLK_DELETE)

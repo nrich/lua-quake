@@ -433,10 +433,11 @@ VID_GetVSync
 */
 static qboolean VID_GetVSync (void)
 {
-#if defined(USE_SDL2)
+#if defined(USE_SDL2) || SDL_VERSION_ATLEAST(1,3,0)
 	return SDL_GL_GetSwapInterval() == 1;
 #else
 	int swap_control;
+
 	if (SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &swap_control) == 0)
 		return swap_control > 0;
 	return false;
@@ -690,7 +691,11 @@ static qboolean VID_SetMode (int width, int height, int refreshrate, int bpp, qb
 		flags |= SDL_NOFRAME;
 	
 	gl_swap_control = true;
+#if SDL_VERSION_ATLEAST(1,3,0)
+        if (SDL_GL_SetSwapInterval((vid_vsync.value) ? 1 : 0) == -1)
+#else
 	if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, (vid_vsync.value) ? 1 : 0) == -1)
+#endif
 		gl_swap_control = false;
 
 	bpp = SDL_VideoModeOK(width, height, bpp, flags);
@@ -1093,7 +1098,7 @@ static void GL_CheckExtensions (void)
 		Con_Warning ("vertical sync not supported (SDL_GL_SetAttribute failed)\n");
 #endif
 	}
-#if defined(USE_SDL2)
+#if defined(USE_SDL2) || SDL_VERSION_ATLEAST(1,3,0)
 	else if ((swap_control = SDL_GL_GetSwapInterval()) == -1)
 #else
 	else if (SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &swap_control) == -1)

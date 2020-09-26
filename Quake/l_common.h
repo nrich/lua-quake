@@ -42,3 +42,11 @@ void l_RunError (const char *error, ...);
 #define BUILTINS_IN_GLOBAL
 
 #define ENTITIY_PUSH_NIL_NOT_WORLD 0
+
+#ifndef _setjmp
+#define _setjmp setjmp
+#endif
+
+#ifndef _longjmp
+#define _longjmp longjmp
+#endif
