@@ -55,7 +55,7 @@ CPUFLAGS=
 LDFLAGS = -L../Emscripten/lua-5.3.5/lua5.3 -L../Emscripten/gl4es-1.1.4/lib
 DFLAGS ?=
 CFLAGS ?= -Wall -Wno-trigraphs
-CFLAGS += -I../Emscripten/lua-5.3.5/lua5.3 -I../Emscripten/gl4es-1.1.4/include $(CPUFLAGS)
+CFLAGS += -I../Emscripten/lua-5.3.5 -I../Emscripten/gl4es-1.1.4/include $(CPUFLAGS)
 ifneq ($(DEBUG),0)
 DFLAGS += -DDEBUG
 CFLAGS += -g
