@@ -112,8 +112,10 @@ static void IN_BeginIgnoringMouseEvents(void)
 	if (currentFilter != IN_SDL2_FilterMouseEvents)
 		SDL_SetEventFilter(IN_SDL2_FilterMouseEvents, NULL);
 #else
-//	if (SDL_GetEventFilter() != IN_FilterMouseEvents)
-//		SDL_SetEventFilter(IN_FilterMouseEvents);
+#ifndef __EMSCRIPTEN__
+	if (SDL_GetEventFilter() != IN_FilterMouseEvents)
+		SDL_SetEventFilter(IN_FilterMouseEvents);
+#endif
 #endif
 }
 
@@ -125,8 +127,10 @@ static void IN_EndIgnoringMouseEvents(void)
 	if (SDL_GetEventFilter(&currentFilter, &currentUserdata) == SDL_TRUE)
 		SDL_SetEventFilter(NULL, NULL);
 #else
-//	if (SDL_GetEventFilter() != NULL)
-//		SDL_SetEventFilter(NULL);
+#ifndef __EMSCRIPTEN__
+	if (SDL_GetEventFilter() != NULL)
+		SDL_SetEventFilter(NULL);
+#endif
 #endif
 }
 
@@ -217,6 +221,7 @@ void IN_Activate (void)
 		Con_Printf("WARNING: SDL_SetRelativeMouseMode(SDL_TRUE) failed.\n");
 	}
 #else
+#ifndef __EMSCRIPTEN__
 	if (SDL_WM_GrabInput(SDL_GRAB_QUERY) != SDL_GRAB_ON)
 	{
 		SDL_WM_GrabInput(SDL_GRAB_ON);
@@ -230,6 +235,7 @@ void IN_Activate (void)
 		if (SDL_ShowCursor(SDL_QUERY) != SDL_DISABLE)
 			Con_Printf("WARNING: SDL_ShowCursor(SDL_DISABLE) failed.\n");
 	}
+#endif
 #endif
 
 	IN_EndIgnoringMouseEvents();
@@ -253,6 +259,7 @@ void IN_Deactivate (qboolean free_cursor)
 #if defined(USE_SDL2)
 		SDL_SetRelativeMouseMode(SDL_FALSE);
 #else
+#ifndef __EMSCRIPTEN__
 		if (SDL_WM_GrabInput(SDL_GRAB_QUERY) != SDL_GRAB_OFF)
 		{
 			SDL_WM_GrabInput(SDL_GRAB_OFF);
@@ -266,6 +273,7 @@ void IN_Deactivate (qboolean free_cursor)
 			if (SDL_ShowCursor(SDL_QUERY) != SDL_ENABLE)
 				Con_Printf("WARNING: SDL_ShowCursor(SDL_ENABLE) failed.\n");
 		}
+#endif
 #endif
 	}
 
