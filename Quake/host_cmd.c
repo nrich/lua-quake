@@ -2234,7 +2234,11 @@ void Host_Startdemos_f (void)
 		{  /* QuakeSpasm customization: */
 			/* go straight to menu, no CL_NextDemo */
 			cls.demonum = -1;
+#ifdef __EMSCRIPTEN__
+			Cbuf_InsertText("toggleconsole\n");
+#else
 			Cbuf_InsertText("menu_main\n");
+#endif
 			return;
 		}
 		CL_NextDemo ();
