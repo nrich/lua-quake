@@ -813,7 +813,11 @@ static inline int IN_SDL_KeysymToQuakeKey(SDLKey sym)
 	case SDLK_LSHIFT: return K_SHIFT;
 	case SDLK_RSHIFT: return K_SHIFT;
 
+#ifdef __EMSCRIPTEN__
+	case SDLK_F1: return K_ESCAPE;
+#else
 	case SDLK_F1: return K_F1;
+#endif
 	case SDLK_F2: return K_F2;
 	case SDLK_F3: return K_F3;
 	case SDLK_F4: return K_F4;
@@ -832,7 +836,11 @@ static inline int IN_SDL_KeysymToQuakeKey(SDLKey sym)
 	case SDLK_HOME: return K_HOME;
 	case SDLK_END: return K_END;
 
+#ifdef __EMSCRIPTEN__
+	case SDLK_NUMLOCK: return K_ESCAPE;
+#else
 	case SDLK_NUMLOCK: return K_KP_NUMLOCK;
+#endif
 	case SDLK_KP_DIVIDE: return K_KP_SLASH;
 	case SDLK_KP_MULTIPLY: return K_KP_STAR;
 	case SDLK_KP_MINUS:return K_KP_MINUS;
