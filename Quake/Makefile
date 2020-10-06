@@ -9,6 +9,7 @@ DO_USERDIRS=0
 
 ### Enable/Disable SDL2
 USE_SDL2=0
+USE_LUAQUAKE_ENHANCED=1
 
 ### Enable/Disable codecs for streaming music support
 USE_CODEC_WAVE=1
@@ -174,6 +175,9 @@ CODECLIBS+= -lxmp
 endif
 ifeq ($(USE_CODEC_UMX),1)
 CFLAGS+= -DUSE_CODEC_UMX
+endif
+ifeq ($(USE_LUAQUAKE_ENHANCED),1)
+CFLAGS+= -DLUAQUAKE_ENHANCED
 endif
 
 COMMON_LIBS:= -lm -lGL

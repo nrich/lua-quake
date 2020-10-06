@@ -214,7 +214,11 @@ void M_ToggleMenu_f (void)
 	{
 		if (m_state != m_main)
 		{
+#ifdef __EMSCRIPTEN__
+                       M_Menu_Options_f(); 
+#else
 			M_Menu_Main_f ();
+#endif
 			return;
 		}
 
@@ -229,7 +233,11 @@ void M_ToggleMenu_f (void)
 	}
 	else
 	{
+#ifdef __EMSCRIPTEN__
+                M_Menu_Options_f(); 
+#else
 		M_Menu_Main_f ();
+#endif
 	}
 }
 
@@ -1265,7 +1273,15 @@ void M_Options_Key (int k)
 	{
 	case K_ESCAPE:
 	case K_BBUTTON:
+#ifdef __EMSCRIPTEN__
+		IN_Activate();
+		key_dest = key_game;
+		m_state = m_none;
+#else
 		M_Menu_Main_f ();
+#endif
+
+
 		break;
 
 	case K_ENTER:
@@ -1336,6 +1352,14 @@ void M_Options_Key (int k)
 const char *bindnames[][2] =
 {
 	{"+attack",		"attack"},
+	{"+use",		"use"},
+#ifdef LUAQUAKE_ENHANCED
+	{"+action1",		"action 1"},
+	{"+action2",		"action 2"},
+	{"+action3",		"action 3"},
+	{"+action4",		"action 4"},
+	{"+action5",		"action 5"},
+#endif
 	{"impulse 10",		"next weapon"},
 	{"impulse 12",		"prev weapon"},
 	{"+jump",		"jump / swim up"},

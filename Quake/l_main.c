@@ -84,6 +84,13 @@ static const char *l_entity_fields[] = {
     "button0",
     "button1",
     "button2",
+#ifdef LUAQUAKE_ENHANCED
+    "button3",
+    "button4",
+    "button5",
+    "button6",
+    "button7",
+#endif
     "impulse",
     "fixangle",
     "v_angle",
@@ -261,10 +268,17 @@ ofs += type_size[itype];\
     init_field_def(ev_entity, "chain"); 
     init_field_def(ev_float, "deadflag"); 
     init_field_def(ev_vector, "view_ofs"); 
-    init_field_def(ev_float, "button0"); 
-    init_field_def(ev_float, "button1"); 
-    init_field_def(ev_float, "button2"); 
-    init_field_def(ev_float, "impulse"); 
+    init_field_def(ev_float, "button0");
+    init_field_def(ev_float, "button1");
+    init_field_def(ev_float, "button2");
+#ifdef LUAQUAKE_ENHANCED
+    init_field_def(ev_float, "button3");
+    init_field_def(ev_float, "button4");
+    init_field_def(ev_float, "button5");
+    init_field_def(ev_float, "button6");
+    init_field_def(ev_float, "button7");
+#endif
+    init_field_def(ev_float, "impulse");
     init_field_def(ev_float, "fixangle"); 
     init_field_def(ev_vector, "v_angle"); 
     init_field_def(ev_float, "idealpitch"); 

@@ -55,6 +55,9 @@ kbutton_t	in_mlook, in_klook;
 kbutton_t	in_left, in_right, in_forward, in_back;
 kbutton_t	in_lookup, in_lookdown, in_moveleft, in_moveright;
 kbutton_t	in_strafe, in_speed, in_use, in_jump, in_attack;
+#ifdef LUAQUAKE_ENHANCED
+kbutton_t	in_action1, in_action2, in_action3, in_action4, in_action5;
+#endif
 kbutton_t	in_up, in_down;
 
 int			in_impulse;
@@ -160,6 +163,19 @@ void IN_UseDown (void) {KeyDown(&in_use);}
 void IN_UseUp (void) {KeyUp(&in_use);}
 void IN_JumpDown (void) {KeyDown(&in_jump);}
 void IN_JumpUp (void) {KeyUp(&in_jump);}
+
+#ifdef LUAQUAKE_ENHANCED
+void IN_Action1Down (void) {KeyDown(&in_action1);}
+void IN_Action1Up (void) {KeyUp(&in_action1);}
+void IN_Action2Down (void) {KeyDown(&in_action2);}
+void IN_Action2Up (void) {KeyUp(&in_action2);}
+void IN_Action3Down (void) {KeyDown(&in_action3);}
+void IN_Action3Up (void) {KeyUp(&in_action3);}
+void IN_Action4Down (void) {KeyDown(&in_action4);}
+void IN_Action4Up (void) {KeyUp(&in_action4);}
+void IN_Action5Down (void) {KeyDown(&in_action5);}
+void IN_Action5Up (void) {KeyUp(&in_action5);}
+#endif
 
 void IN_Impulse (void) {in_impulse=Q_atoi(Cmd_Argv(1));}
 
@@ -374,7 +390,7 @@ void CL_SendMove (const usercmd_t *cmd)
 //
 	bits = 0;
 
-	if ( in_attack.state & 3 )
+	if (in_attack.state & 3)
 		bits |= 1;
 	in_attack.state &= ~2;
 
@@ -385,6 +401,28 @@ void CL_SendMove (const usercmd_t *cmd)
 	if (in_use.state & 3)
 		bits |= 4;
 	in_use.state &= ~2;
+
+#ifdef LUAQUAKE_ENHANCED
+	if (in_action1.state & 3)
+		bits |= 8;
+	in_action1.state &= ~2;
+
+	if (in_action2.state & 3)
+		bits |= 16;
+	in_action2.state &= ~2;
+
+	if (in_action3.state & 3)
+		bits |= 32;
+	in_action3.state &= ~2;
+
+	if (in_action4.state & 3)
+		bits |= 64;
+	in_action4.state &= ~2;
+
+	if (in_action5.state & 3)
+		bits |= 128;
+	in_action5.state &= ~2;
+#endif
 
 	MSG_WriteByte (&buf, bits);
 
@@ -446,6 +484,20 @@ void CL_InitInput (void)
 	Cmd_AddCommand ("-attack", IN_AttackUp);
 	Cmd_AddCommand ("+use", IN_UseDown);
 	Cmd_AddCommand ("-use", IN_UseUp);
+
+#ifdef LUAQUAKE_ENHANCED 
+	Cmd_AddCommand ("+action1", IN_Action1Down);
+	Cmd_AddCommand ("-action1", IN_Action1Up);
+	Cmd_AddCommand ("+action2", IN_Action2Down);
+	Cmd_AddCommand ("-action2", IN_Action2Up);
+	Cmd_AddCommand ("+action3", IN_Action3Down);
+	Cmd_AddCommand ("-action3", IN_Action3Up);
+	Cmd_AddCommand ("+action4", IN_Action4Down);
+	Cmd_AddCommand ("-action4", IN_Action4Up);
+	Cmd_AddCommand ("+action5", IN_Action5Down);
+	Cmd_AddCommand ("-action5", IN_Action5Up);
+#endif
+
 	Cmd_AddCommand ("+jump", IN_JumpDown);
 	Cmd_AddCommand ("-jump", IN_JumpUp);
 	Cmd_AddCommand ("impulse", IN_Impulse);

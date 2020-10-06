@@ -240,6 +240,23 @@ static int l_entity_index(lua_State *L) {
     } else if (strncmp(property, "button2", 7) == 0 && len == 7) {
         // float
         lua_pushnumber(L, ed->v.button2);
+#ifdef LUAQUAKE_ENHANCED
+    } else if (strncmp(property, "button3", 7) == 0 && len == 7) {
+        // float
+        lua_pushnumber(L, ed->v.button3);
+    } else if (strncmp(property, "button4", 7) == 0 && len == 7) {
+        // float
+        lua_pushnumber(L, ed->v.button4);
+    } else if (strncmp(property, "button5", 7) == 0 && len == 7) {
+        // float
+        lua_pushnumber(L, ed->v.button5);
+    } else if (strncmp(property, "button6", 7) == 0 && len == 7) {
+        // float
+        lua_pushnumber(L, ed->v.button6);
+    } else if (strncmp(property, "button7", 7) == 0 && len == 7) {
+        // float
+        lua_pushnumber(L, ed->v.button7);
+#endif
     } else if (strncmp(property, "impulse", 7) == 0 && len == 7) {
         // float
         lua_pushnumber(L, ed->v.impulse);
@@ -624,6 +641,23 @@ static int l_entity_newindex(lua_State *L) {
     } else if (strncmp(property, "button2", 7) == 0 && len == 7) {
         // float
         ed->v.button2 = luaL_checknumber(L, 3);
+#ifdef LUAQUAKE_ENHANCED
+    } else if (strncmp(property, "button3", 7) == 0 && len == 7) {
+        // float
+        ed->v.button3 = luaL_checknumber(L, 3);
+    } else if (strncmp(property, "button4", 7) == 0 && len == 7) {
+        // float
+        ed->v.button4 = luaL_checknumber(L, 3);
+    } else if (strncmp(property, "button5", 7) == 0 && len == 7) {
+        // float
+        ed->v.button5 = luaL_checknumber(L, 3);
+    } else if (strncmp(property, "button6", 7) == 0 && len == 7) {
+        // float
+        ed->v.button6 = luaL_checknumber(L, 3);
+    } else if (strncmp(property, "button7", 7) == 0 && len == 7) {
+        // float
+        ed->v.button7 = luaL_checknumber(L, 3);
+#endif
     } else if (strncmp(property, "impulse", 7) == 0 && len == 7) {
         // float
         ed->v.impulse = luaL_checknumber(L, 3);

@@ -468,6 +468,14 @@ void SV_ReadClientMove (usercmd_t *move)
 	host_client->edict->v.button2 = (bits & 2)>>1;
 	host_client->edict->v.button1 = (bits & 4)>>2;
 
+#ifdef LUAQUAKE_ENHANCED
+	host_client->edict->v.button3 = (bits & 8)>>3;
+	host_client->edict->v.button4 = (bits & 16)>>4;
+	host_client->edict->v.button5 = (bits & 32)>>5;
+	host_client->edict->v.button6 = (bits & 64)>>6;
+	host_client->edict->v.button7 = (bits & 128)>>7;
+#endif
+
 	i = MSG_ReadByte ();
 	if (i)
 		host_client->edict->v.impulse = i;

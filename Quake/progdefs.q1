@@ -105,6 +105,13 @@ typedef struct
 	float	button0;
 	float	button1;
 	float	button2;
+#ifdef LUAQUAKE_ENHANCED
+	float	button3;
+	float	button4;
+	float	button5;
+	float	button6;
+	float	button7;
+#endif
 	float	impulse;
 	float	fixangle;
 	vec3_t	v_angle;
