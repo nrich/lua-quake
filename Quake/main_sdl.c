@@ -108,13 +108,17 @@ void do_loop() {
         /* If we have no input focus at all, sleep a bit */
         if (!VID_HasMouseOrInputFocus() || cl.paused)
         {
-                //SDL_Delay(16);
+#ifndef __EMSCRIPTEN__
+                SDL_Delay(16);
+#endif
         }
         /* If we're minimised, sleep a bit more */
         if (VID_IsMinimized())
         {
                 scr_skipupdate = 1;
-                //SDL_Delay(32);
+#ifndef __EMSCRIPTEN__
+                SDL_Delay(32);
+#endif
         }
         else
         {
@@ -125,8 +129,10 @@ void do_loop() {
 
         Host_Frame (Time);
 
+#ifndef __EMSCRIPTEN__
         if (Time < sys_throttle.value && !cls.timedemo)
-                1;//SDL_Delay(1);
+                SDL_Delay(1);
+#endif
 
         OldTime = NewTime;
 }
@@ -139,6 +145,18 @@ int main(int argc, char *argv[])
 
 #ifdef __EMSCRIPTEN__
         initialize_gl4es();
+
+        EM_ASM(
+            // Make a directory other than '/'
+            FS.mkdir('/settings');
+            // Then mount with IDBFS type
+            FS.mount(IDBFS, {}, '/settings');
+
+            // Then sync
+            FS.syncfs(true, function (err) {
+            // Error
+        });
+    );
 #endif
 
 	parms.argc = argc;
@@ -185,7 +203,9 @@ int main(int argc, char *argv[])
 
 			while (Time < sys_ticrate.value )
 			{
-				//SDL_Delay(1);
+#ifndef __EMSCRIPTEN__
+				SDL_Delay(1);
+#endif
 				NewTime = Sys_DoubleTime ();
 				Time = NewTime - OldTime;
 			}
