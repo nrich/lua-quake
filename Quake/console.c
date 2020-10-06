@@ -119,7 +119,11 @@ void Con_ToggleConsole_f (void)
 		}
 		else
 		{
+#ifdef __EMSCRIPTEN__
+                        M_Menu_Options_f ();
+#else
 			M_Menu_Main_f ();
+#endif
 		}
 	}
 	else
