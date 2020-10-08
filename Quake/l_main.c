@@ -314,8 +314,8 @@ ofs += type_size[itype];\
 }
 
 static int l_custom_lua_atpanic(lua_State *L) {
-    luaL_traceback(L, L, NULL, 1);
-    Host_Error("PANIC: %s", lua_tostring(L, -1));
+    luaL_traceback(L, L, lua_tostring(L, -1), 1);
+    Host_Error("PANIC: %s\n", lua_tostring(L, -1));
 
     return 0;
 }
@@ -463,6 +463,6 @@ void LoadProgs(void) {
 
     err = l_init(scriptdir);
     if (err)
-        Sys_Error(err);
+        Sys_Error("%s", err);
 }
 
