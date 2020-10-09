@@ -101,10 +101,10 @@ static int l_global_index(lua_State *L) {
     int len = strlen(property);
 
     if (n != 2)
-        Sys_Error("l_global_index: Number of args to set `%s' is %d, not 2\n", property, n);
+        luaL_error(L, "l_global_index: Number of args to set `%s' is %d, not 2\n", property, n);
 
     if (strncmp("pad", property, 3) == 0 && len == 3) {
-        Sys_Error("Global property `pad' is not readable\n");
+        luaL_error(L, "Global property `pad' is not readable\n");
     } else if (strncmp("self", property, 4) == 0 && len == 4) {
         // edict
         if (g->self == 0 && ENTITIY_PUSH_NIL_NOT_WORLD) {
@@ -618,7 +618,7 @@ static int l_global_index(lua_State *L) {
         lua_pushinteger(L, TE_BEAM);
 #endif
     } else {
-        Sys_Error("l_global_index: Unknown field `%s' %d\n", property, len);
+        luaL_error(L, "l_global_index: Unknown field `%s' %d\n", property, len);
     }
     return 1;
 }
@@ -632,22 +632,22 @@ static int l_global_newindex(lua_State *L) {
     int len = strlen(property);
 
     if (n != 3)
-        Sys_Error("l_global_index: Number of args to set `%s' is %d, not 3\n", property, n);
+        luaL_error(L, "l_global_index: Number of args to set `%s' is %d, not 3\n", property, n);
 
     if (strncmp("pad", property, 3) == 0 && len == 3) {
-        Sys_Error("Global property `pad' is not assignable\n");
+        luaL_error(L, "Global property `pad' is not assignable\n");
     } else if (strncmp("self", property, 4) == 0 && len == 4) {
         // edict
-        Sys_Error("Global property `self' is not assignable\n");
+        luaL_error(L, "Global property `self' is not assignable\n");
     } else if (strncmp("other", property, 5) == 0 && len == 5) {
         // edict
-        Sys_Error("Global property `other' is not assignable\n");
+        luaL_error(L, "Global property `other' is not assignable\n");
     } else if (strncmp("world", property, 5) == 0 && len == 5) {
         // edict
-        Sys_Error("Global property `world' is not assignable\n");
+        luaL_error(L, "Global property `world' is not assignable\n");
     } else if (strncmp("time", property, 4) == 0 && len == 4) {
         // float
-        Sys_Error("Global property `time' is not assignable\n");
+        luaL_error(L, "Global property `time' is not assignable\n");
     } else if (strncmp("frametime", property, 9) == 0 && len == 9) {
         // float
         g->frametime = luaL_checknumber(L, 3);
@@ -656,16 +656,16 @@ static int l_global_newindex(lua_State *L) {
         g->force_retouch = luaL_checknumber(L, 3);
     } else if (strncmp("mapname", property, 7) == 0 && len == 7) {
         // string_t
-        Sys_Error("Global property `mapname' is not assignable\n");
+        luaL_error(L, "Global property `mapname' is not assignable\n");
     } else if (strncmp("deathmatch", property, 10) == 0 && len == 10) {
         // float
-        Sys_Error("Global property `deathmatch' is not assignable\n");
+        luaL_error(L, "Global property `deathmatch' is not assignable\n");
     } else if (strncmp("coop", property, 4) == 0 && len == 4) {
         // float
-        Sys_Error("Global property `coop' is not assignable\n");
+        luaL_error(L, "Global property `coop' is not assignable\n");
     } else if (strncmp("teamplay", property, 8) == 0 && len == 8) {
         // float
-        Sys_Error("Global property `teamplay' is not assignable\n");
+        luaL_error(L, "Global property `teamplay' is not assignable\n");
     } else if (strncmp("serverflags", property, 11) == 0 && len == 11) {
         // float
         g->serverflags = luaL_checknumber(L, 3);
@@ -731,43 +731,43 @@ static int l_global_newindex(lua_State *L) {
         g->parm1 = luaL_checknumber(L, 3);
     } else if (strncmp("v_forward", property, 9) == 0 && len == 9) {
         // vec3_t
-        Sys_Error("Global property `v_forward' is not assignable\n");
+        luaL_error(L, "Global property `v_forward' is not assignable\n");
     } else if (strncmp("v_up", property, 4) == 0 && len == 4) {
         // vec3_t
-        Sys_Error("Global property `v_up' is not assignable\n");
+        luaL_error(L, "Global property `v_up' is not assignable\n");
     } else if (strncmp("v_right", property, 7) == 0 && len == 7) {
         // vec3_t
-        Sys_Error("Global property `v_right' is not assignable\n");
+        luaL_error(L, "Global property `v_right' is not assignable\n");
     } else if (strncmp("trace_allsolid", property, 14) == 0 && len == 14) {
         // float
-        Sys_Error("Global property `trace_allsolid' is not assignable\n");
+        luaL_error(L, "Global property `trace_allsolid' is not assignable\n");
     } else if (strncmp("trace_startsolid", property, 16) == 0 && len == 16) {
         // float
-        Sys_Error("Global property `trace_startsolid' is not assignable\n");
+        luaL_error(L, "Global property `trace_startsolid' is not assignable\n");
     } else if (strncmp("trace_fraction", property, 14) == 0 && len == 14) {
         // float
-        Sys_Error("Global property `trace_fraction' is not assignable\n");
+        luaL_error(L, "Global property `trace_fraction' is not assignable\n");
     } else if (strncmp("trace_endpos", property, 12) == 0 && len == 12) {
         // vec3_t
-        Sys_Error("Global property `trace_plane_normal' is not assignable\n");
+        luaL_error(L, "Global property `trace_plane_normal' is not assignable\n");
     } else if (strncmp("trace_plane_normal", property, 18) == 0 && len == 18) {
         // vec3_t
-        Sys_Error("Global property `trace_plane_normal' is not assignable\n");
+        luaL_error(L, "Global property `trace_plane_normal' is not assignable\n");
     } else if (strncmp("trace_plane_dist", property, 16) == 0 && len == 16) {
         // float
-        Sys_Error("Global property `trace_plane_dist' is not assignable\n");
+        luaL_error(L, "Global property `trace_plane_dist' is not assignable\n");
     } else if (strncmp("trace_ent", property, 9) == 0 && len == 9) {
         // edict_t
-        Sys_Error("Global property `trace_ent' is not assignable\n");
+        luaL_error(L, "Global property `trace_ent' is not assignable\n");
     } else if (strncmp("trace_inopen", property, 12) == 0 && len == 12) {
         // float
-        Sys_Error("Global property `trace_inopen' is not assignable\n");
+        luaL_error(L, "Global property `trace_inopen' is not assignable\n");
     } else if (strncmp("trace_inwater", property, 13) == 0 && len == 13) {
         // float
-        Sys_Error("Global property `trace_inwater' is not assignable\n");
+        luaL_error(L, "Global property `trace_inwater' is not assignable\n");
     } else if (strncmp("msg_entity", property, 10) == 0 && len == 10) {
         // edict
-        Sys_Error("Global property `msg_entity' is not assignable\n");
+        luaL_error(L, "Global property `msg_entity' is not assignable\n");
     } else if (strncmp("main", property, 4) == 0 && len == 4) {
         // func_t
         if (g->main != LUA_NOREF) {
@@ -779,7 +779,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->main = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "main");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "main");
         }
     } else if (strncmp("StartFrame", property, 10) == 0 && len == 10) {
         // func_t
@@ -792,7 +792,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->StartFrame = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "StartFrame");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "StartFrame");
         }
     } else if (strncmp("PlayerPreThink", property, 14) == 0 && len == 14) {
         // func_t
@@ -805,7 +805,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->PlayerPreThink = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PlayerPreThink");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PlayerPreThink");
         }
 
     } else if (strncmp("PlayerPostThink", property, 15) == 0 && len == 15) {
@@ -819,7 +819,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->PlayerPostThink = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PlayerPostThink");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PlayerPostThink");
         }
 
     } else if (strncmp("ClientKill", property, 10) == 0 && len == 10) {
@@ -833,7 +833,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->ClientKill = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientKill");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientKill");
         }
 
     } else if (strncmp("ClientConnect", property, 13) == 0 && len == 13) {
@@ -847,7 +847,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->ClientConnect = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientConnect");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientConnect");
         }
 
     } else if (strncmp("PutClientInServer", property, 17) == 0 && len == 17) {
@@ -861,7 +861,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->PutClientInServer = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PutClientInServer");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PutClientInServer");
         }
 
     } else if (strncmp("ClientDisconnect", property, 16) == 0 && len == 16) {
@@ -875,7 +875,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->ClientDisconnect = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientDisconnect");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientDisconnect");
         }
 
     } else if (strncmp("SetNewParms", property, 11) == 0 && len == 11) {
@@ -889,7 +889,7 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->SetNewParms = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "SetNewParms");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "SetNewParms");
         }
 
     } else if (strncmp("SetChangeParms", property, 14) == 0 && len == 14) {
@@ -903,268 +903,268 @@ static int l_global_newindex(lua_State *L) {
         } else if (lua_isfunction(L, 3)) {
             g->SetChangeParms = luaL_ref(L, LUA_REGISTRYINDEX);
         } else {
-            Sys_Error("Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "SetChangeParms");
+            luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "SetChangeParms");
         }
 #if 1
     } else if (strncmp("makevectors", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("setorigin", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("setmodel", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("setsize", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("break", property, 5) == 0 && len == 5) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("sound", property, 5) == 0 && len == 5) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("normalize", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("error", property, 5) == 0 && len == 5) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("objerror", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("vlen", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("vectoyaw", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("random", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("fabs", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("spawn", property, 5) == 0 && len == 5) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("remove", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("dprint", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("bprint", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("sprint", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("centerprint", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("rint", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("particle", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("cvar_set", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("cvar", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("localcmd", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("floor", property, 5) == 0 && len == 5) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("ceil", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("coredump", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("traceon", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("traceoff", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("eprint", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("changelevel", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("checkbottom", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("pointcontents", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("ftos", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("vtos", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("vectoangles", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("changeyaw", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("stuffcmd", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("lightstyle", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("precache_model", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("precache_sound", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("precache_file", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("walkmove", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("droptofloor", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("nextent", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("traceline", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("find", property, 4) == 0 && len == 4) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("findradius", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("ambientsound", property, 12) == 0 && len == 12) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("setspawnparms", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("movetogoal", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("precache_model2", property, 15) == 0 && len == 15) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("precache_sound2", property, 15) == 0 && len == 15) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("precache_file2", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("aim", property, 3) == 0 && len == 3) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("checkclient", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("makestatic", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteByte", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteChar", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteShort", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteLong", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteAngle", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteCoord", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteString", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("WriteEntity", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
 #endif
 
 #if 1
     } else if (strncmp("MOVETYPE_NONE", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_ANGLENOCLIP", property, 20) == 0 && len == 20) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_ANGLECLIP", property, 18) == 0 && len == 18) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_WALK", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_STEP", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_FLY", property, 12) == 0 && len == 12) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_TOSS", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_PUSH", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_NOCLIP", property, 15) == 0 && len == 15) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_FLYMISSILE", property, 19) == 0 && len == 19) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MOVETYPE_BOUNCE", property, 15) == 0 && len == 15) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SOLID_NOT", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SOLID_TRIGGER", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SOLID_BBOX", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SOLID_SLIDEBOX", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SOLID_BSP", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("DEAD_NO", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("DEAD_DYING", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("DEAD_DEAD", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("DAMAGE_NO", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("DAMAGE_YES", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("DAMAGE_AIM", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_FLY", property, 6) == 0 && len == 6) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_SWIM", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_CONVEYOR", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_CLIENT", property, 9) == 0 && len == 9) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_INWATER", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_MONSTER", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_GODMODE", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_NOTARGET", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_ITEM", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_ONGROUND", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_PARTIALGROUND", property, 16) == 0 && len == 16) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_WATERJUMP", property, 12) == 0 && len == 12) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("FL_JUMPRELEASED", property, 15) == 0 && len == 15) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("EF_BRIGHTFIELD", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("EF_MUZZLEFLASH", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("EF_BRIGHTLIGHT", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("EF_DIMLIGHT", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SPAWNFLAG_NOT_EASY", property, 18) == 0 && len == 18) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SPAWNFLAG_NOT_MEDIUM", property, 20) == 0 && len == 20) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SPAWNFLAG_NOT_HARD", property, 18) == 0 && len == 18) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("SPAWNFLAG_NOT_DEATHMATCH", property, 24) == 0 && len == 24) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MSG_BROADCAST", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MSG_ONE", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MSG_ALL", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("MSG_INIT", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_SPIKE", property, 8) == 0 && len == 8) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_SUPERSPIKE", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_GUNSHOT", property, 10) == 0 && len == 10) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_EXPLOSION", property, 12) == 0 && len == 12) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_TAREXPLOSION", property, 15) == 0 && len == 15) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_LIGHTNING1", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_LIGHTNING2", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_WIZSPIKE", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_KNIGHTSPIKE", property, 14) == 0 && len == 14) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_LIGHTNING3", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_LAVASPLASH", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_TELEPORT", property, 11) == 0 && len == 11) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_EXPLOSION2", property, 13) == 0 && len == 13) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
     } else if (strncmp("TE_BEAM", property, 7) == 0 && len == 7) {
-        Sys_Error("Global property `%s' is not assignable\n", property);
+        luaL_error(L, "Global property `%s' is not assignable\n", property);
 #endif
 
     } else {
-        Sys_Error("l_global_newindex: Unknown field `%s'\n", property);
+        luaL_error(L, "l_global_newindex: Unknown field `%s'\n", property);
     }
 
     return 0;

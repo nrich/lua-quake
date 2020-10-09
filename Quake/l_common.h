@@ -50,3 +50,7 @@ void l_RunError (const char *error, ...);
 #ifndef _longjmp
 #define _longjmp longjmp
 #endif
+
+float l_getnumber(lua_State *L, int pos, const char *name);
+void *l_getuserdata(lua_State *L, int pos, const char *typename, const char *name);
+const char *l_getstring(lua_State *L, int pos, const char *name);

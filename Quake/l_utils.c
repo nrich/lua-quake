@@ -468,3 +468,44 @@ void LoadFromFile(const char *data) {
         ED_LoadFromFile(data);
     }
 }
+
+float l_getnumber(lua_State *L, int pos, const char *name) {
+    if (lua_isnumber(L, pos)) {
+        return lua_tonumber(L, pos);
+    } else {
+        luaL_error(L, "Value assigned to `%s' is a %s, not a number\n", name, luaL_typename(L, pos));
+    }
+
+    return 0;
+}
+
+void *l_getuserdata(lua_State *L, int pos, const char *typename, const char *name) {
+    if (lua_islightuserdata(L, pos) && 0) {
+        luaL_error(L, "Value assigned to `%s' is a %s, not a %s\n", name, GAME_VEC3, typename);
+    } else if (lua_isuserdata(L, pos)) {
+        void *udata = luaL_testudata(L, pos, typename);
+
+        if (!udata) {
+            lua_getmetatable(L, pos);
+            lua_pushstring(L, "__name");
+            lua_rawget(L, -2);
+            luaL_error(L, "Value assigned to `%s' is a %s, not a %s\n", name, lua_tostring(L, -1), typename);
+        }
+
+        return udata;
+    } else {
+        luaL_error(L, "Value assigned to `%s' is a %s, not a %s\n", name, luaL_typename(L, pos), typename);
+    }
+
+    return NULL;
+}
+
+const char *l_getstring(lua_State *L, int pos, const char *name) {
+    if (lua_isstring(L, pos)) {
+        return lua_tostring(L, pos);
+    } else {
+        luaL_error(L, "Value assigned to `%s' is a %s, not a string\n", name, luaL_typename(L, pos));
+    }
+
+    return "";
+}
