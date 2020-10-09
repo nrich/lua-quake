@@ -351,7 +351,7 @@ static int l_vec3_index(lua_State *L) {
         lua_pushcfunction(L, l_vec3_set);
         return 1;
     } else {
-        Sys_Error("Unknown field `%s' in vec3\n", property);
+        luaL_error(L, "Unknown field `%s' in %s\n", property, GAME_VEC3);
     }
 
     lua_pushnumber(L, v);
@@ -376,7 +376,7 @@ static int l_vec3_newindex(lua_State *L) {
     } else if (strncmp("2", property, 1) == 0) {
         in[0][2] = v;
     } else {
-        Sys_Error("Unknown field `%s' in vec3\n", property);
+        luaL_error(L, "Unknown field `%s' in %s\n", property, GAME_VEC3);
     }
 
     return 0;
