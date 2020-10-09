@@ -18,6 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include "l_common.h"
 #include "quakedef.h"
 
@@ -318,6 +322,17 @@ ofs += type_size[itype];\
 }
 
 static int l_custom_lua_atpanic(lua_State *L) {
+#ifdef __EMSCRIPTEN__
+    //luaL_where(L, 0);
+
+#include <emscripten.h>
+  
+    EM_ASM({
+        set_lua_error(Module.UTF8ToString($0));
+    }, lua_tostring(L, -1));
+    //lua_pop(L, 1);
+#endif
+
     luaL_traceback(L, L, lua_tostring(L, -1), 1);
     Host_Error("PANIC: %s\n", lua_tostring(L, -1));
 

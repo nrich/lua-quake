@@ -302,7 +302,7 @@ OBJS := strlcat.o \
 # ------------------------
 
 quakespasm.js:	$(OBJS)
-	$(LINKER) -s EXPORTED_FUNCTIONS='["_main","_Cbuf_AddText"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall"]' -s EXIT_RUNTIME=1 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=1 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --use-preload-plugins --preload-file id1/ -lidbfs.js
+	$(LINKER) -s EXPORTED_FUNCTIONS='["_main","_Cbuf_AddText"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall","UTF8ToString"]' -s EXIT_RUNTIME=1 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=1 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --use-preload-plugins --preload-file id1/ -lidbfs.js
 	$(call do_strip,$@)
 
 
