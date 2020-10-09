@@ -21,7 +21,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "l_common.h"
 #include "quakedef.h"
 
-#define NUM_OF_FIELDS 77
+#ifdef LUAQUAKE_ENHANCED
+    #define NUM_OF_FIELDS 82
+#else
+    #define NUM_OF_FIELDS 77
+#endif
 
 extern        char            *pr_strings;
 extern        int             pr_stringssize;
