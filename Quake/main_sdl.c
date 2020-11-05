@@ -108,7 +108,9 @@ void do_loop() {
         /* If we have no input focus at all, sleep a bit */
         if (!VID_HasMouseOrInputFocus() || cl.paused)
         {
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
+                emscripten_sleep(16);
+#else
                 SDL_Delay(16);
 #endif
         }
@@ -116,7 +118,9 @@ void do_loop() {
         if (VID_IsMinimized())
         {
                 scr_skipupdate = 1;
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
+                emscripten_sleep(32);
+#else
                 SDL_Delay(32);
 #endif
         }
@@ -129,8 +133,10 @@ void do_loop() {
 
         Host_Frame (Time);
 
-#ifndef __EMSCRIPTEN__
         if (Time < sys_throttle.value && !cls.timedemo)
+#ifdef __EMSCRIPTEN__
+                emscripten_sleep(1);
+#else
                 SDL_Delay(1);
 #endif
 
@@ -203,7 +209,9 @@ int main(int argc, char *argv[])
 
 			while (Time < sys_ticrate.value )
 			{
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
+                                emscripten_sleep(1);
+#else
 				SDL_Delay(1);
 #endif
 				NewTime = Sys_DoubleTime ();
