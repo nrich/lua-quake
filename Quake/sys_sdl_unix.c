@@ -48,6 +48,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "SDL.h"
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 
 qboolean		isDedicated;
 cvar_t		sys_throttle = {"sys_throttle", "0.02", CVAR_ARCHIVE};
@@ -464,7 +468,9 @@ const char *Sys_ConsoleInput (void)
 void Sys_Sleep (unsigned long msecs)
 {
 //	usleep (msecs * 1000);
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(msecs);
+#else
 	SDL_Delay (msecs);
 #endif
 }
