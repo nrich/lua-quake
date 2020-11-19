@@ -44,6 +44,7 @@ DEBUG   ?= 0
 # ---------------------------
 
 CC ?= emcc
+C++ ?= em++
 LINKER = $(CC)
 
 STRIP ?= true
@@ -55,8 +56,8 @@ STRIP ?= true
 CPUFLAGS=
 LDFLAGS = -L../Emscripten/lua-5.3.5/lua5.3 -L../Emscripten/gl4es-1.1.4/lib
 DFLAGS ?=
-CFLAGS ?= -Wall -Wno-trigraphs
-CFLAGS += -O2 -I../Emscripten/lua-5.3.5 -I../Emscripten/gl4es-1.1.4/include $(CPUFLAGS)
+CFLAGS ?= -Wall -Wno-trigraphs -DHUMBLENET_SOCKET_IMPL
+CFLAGS += -I../Emscripten/HumbleNet -I../Emscripten/lua-5.3.5 -I../Emscripten/gl4es-1.1.4/include $(CPUFLAGS)
 ifneq ($(DEBUG),0)
 DFLAGS += -DDEBUG
 CFLAGS += -g
@@ -192,7 +193,7 @@ LIBS := $(COMMON_LIBS) $(NET_LIBS) $(CODECLIBS)
 
 .PHONY:	clean debug release
 
-DEFAULT_TARGET := quakespasm
+DEFAULT_TARGET := quakespasm.js
 
 # ---------------------------
 # rules
@@ -200,6 +201,9 @@ DEFAULT_TARGET := quakespasm
 
 %.o:	%.c
 	$(CC) $(DFLAGS) -c $(CFLAGS) $(SDL_CFLAGS) -o $@ $<
+%.o:	%.cpp
+	$(C++) $(DFLAGS) -c $(CFLAGS) $(SDL_CFLAGS) -o $@ $<
+
 
 # ----------------------------------------------------------------------------
 # objects
@@ -220,7 +224,7 @@ SYSOBJ_SND := snd_sdl.o
 SYSOBJ_CDA := cd_null.o
 SYSOBJ_INPUT := in_sdl.o
 SYSOBJ_GL_VID:= gl_vidsdl.o
-SYSOBJ_NET := net_null.o
+SYSOBJ_NET := net_browser.o net_direct.o net_websock.o
 SYSOBJ_SYS := pl_linux.o sys_sdl_unix.o
 SYSOBJ_MAIN:= main_sdl.o
 SYSOBJ_RES :=
@@ -302,12 +306,7 @@ OBJS := strlcat.o \
 # ------------------------
 
 quakespasm.js:	$(OBJS)
-	$(LINKER) -s EXPORTED_FUNCTIONS='["_main","_Cbuf_AddText"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall","UTF8ToString"]' -s EXIT_RUNTIME=1 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=1 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --use-preload-plugins --preload-file id1/ -lidbfs.js
-	$(call do_strip,$@)
-
-
-quakespasm.html:	$(OBJS)
-	$(LINKER) -s USE_SDL_MIXER=1 -s EXIT_RUNTIME=1 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=1 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --use-preload-plugins --preload-file lq1/ --preload-file id1/ -lidbfs.js
+	$(LINKER) -s ASYNCIFY=1 -s ASYNCIFY_IMPORTS='["do_Close", "do_Read", "do_Write", "do_Listen", "do_Init", "do_Connect"]' -s EXPORTED_FUNCTIONS='["_main","_Cbuf_AddText"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall","UTF8ToString"]' -s EXIT_RUNTIME=1 -s FULL_ES2=1 -s FULL_ES3=1 -s VERBOSE=0 -s FORCE_ALIGNED_MEMORY=0 -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_SDL=1 -s LEGACY_GL_EMULATION=0 -s WASM=1 -s TOTAL_MEMORY=67108864 $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@ --use-preload-plugins --preload-file id1/ -lidbfs.js
 	$(call do_strip,$@)
 
 image.o: lodepng.c lodepng.h stb_image_write.h

@@ -21,10 +21,6 @@
 teamplay = 0
 skill = 0
 framecount = 0
-deathmatch = qc.deathmatch
-coop = qc.coop
-
-
 
 function main()
 	dprint ("main function\n")

@@ -340,14 +340,14 @@ function respawn()
 		-- get the spawn qc.parms as they were at level start
 		setspawnqc.parms (self)
 		-- respawn		
-		PutClientInServer ()
+		qc.PutClientInServer ()
 	elseif deathmatch ~= 0 then -- TODO check condition
 		-- make a copy of the dead body for appearances sake
 		CopyToBodyQue (self)
 		-- set default spawn qc.parms
-		SetNewParms ()
+		qc.SetNewParms ()
 		-- respawn		
-		PutClientInServer ()
+		qc.PutClientInServer ()
 	else
 		localcmd ("restart\n")
 	end

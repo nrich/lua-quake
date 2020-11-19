@@ -886,12 +886,18 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->SetNewParms = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "SetNewParms");
+
         } else if (lua_isfunction(L, 3)) {
             g->SetNewParms = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->SetNewParms);
+            lua_setglobal(L, "SetNewParms");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "SetNewParms");
         }
-
     } else if (strncmp("SetChangeParms", property, 14) == 0 && len == 14) {
         // func_t
         if (g->SetChangeParms != LUA_NOREF) {
@@ -1186,6 +1192,12 @@ int l_global_register(lua_State *L) {
     lua_setfield(L, -2, "__newindex");
     lua_pushcfunction(L, l_global_tostring);
     lua_setfield(L, -2, "__tostring");
+
+    lua_pushnumber(L, pr_global_struct->deathmatch);
+    lua_setglobal(L, "deathmatch");
+
+    lua_pushnumber(L, pr_global_struct->coop);
+    lua_setglobal(L, "coop");
 
     return 1;
 }
