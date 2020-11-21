@@ -776,8 +776,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->main = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "main");
         } else if (lua_isfunction(L, 3)) {
             g->main = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->main);
+            lua_setglobal(L, "main");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "main");
         }
@@ -789,8 +795,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->StartFrame = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "StartFrame");
         } else if (lua_isfunction(L, 3)) {
             g->StartFrame = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->StartFrame);
+            lua_setglobal(L, "StartFrame");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "StartFrame");
         }
@@ -802,8 +814,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->PlayerPreThink = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "PlayerPostThink");
         } else if (lua_isfunction(L, 3)) {
             g->PlayerPreThink = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->PlayerPostThink);
+            lua_setglobal(L, "PlayerPostThink");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PlayerPreThink");
         }
@@ -816,8 +834,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->PlayerPostThink = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "PlayerPostThink");
         } else if (lua_isfunction(L, 3)) {
             g->PlayerPostThink = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->PlayerPostThink);
+            lua_setglobal(L, "PlayerPostThink");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PlayerPostThink");
         }
@@ -830,8 +854,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->ClientKill = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "ClientKill");
         } else if (lua_isfunction(L, 3)) {
             g->ClientKill = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->ClientKill);
+            lua_setglobal(L, "ClientKill");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientKill");
         }
@@ -844,8 +874,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->ClientConnect = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "ClientConnect");
         } else if (lua_isfunction(L, 3)) {
             g->ClientConnect = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->ClientConnect);
+            lua_setglobal(L, "ClientConnect");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientConnect");
         }
@@ -858,8 +894,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->PutClientInServer = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "PutClientInServer");
         } else if (lua_isfunction(L, 3)) {
             g->PutClientInServer = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->PutClientInServer);
+            lua_setglobal(L, "PutClientInServer");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "PutClientInServer");
         }
@@ -872,8 +914,14 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->ClientDisconnect = LUA_NOREF;
+
+            lua_pushnil(L);
+            lua_setglobal(L, "ClientDisconnect");
         } else if (lua_isfunction(L, 3)) {
             g->ClientDisconnect = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->ClientDisconnect);
+            lua_setglobal(L, "ClientDisconnect");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "ClientDisconnect");
         }
@@ -889,7 +937,6 @@ static int l_global_newindex(lua_State *L) {
 
             lua_pushnil(L);
             lua_setglobal(L, "SetNewParms");
-
         } else if (lua_isfunction(L, 3)) {
             g->SetNewParms = luaL_ref(L, LUA_REGISTRYINDEX);
 
@@ -906,8 +953,13 @@ static int l_global_newindex(lua_State *L) {
 
         if (lua_isnil(L, 3)) {
             g->SetChangeParms = LUA_NOREF;
+            lua_pushnil(L);
+            lua_setglobal(L, "SetChangeParms");
         } else if (lua_isfunction(L, 3)) {
             g->SetChangeParms = luaL_ref(L, LUA_REGISTRYINDEX);
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, g->SetChangeParms);
+            lua_setglobal(L, "SetChangeParms");
         } else {
             luaL_error(L, "Value `%s' assigned to `%s' is not a function\n", luaL_typename(L, 3), "SetChangeParms");
         }
