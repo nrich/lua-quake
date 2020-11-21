@@ -370,7 +370,6 @@ const char *l_ParseEdict (const char *data, edict_t *ent) {
 }
 
 void l_LoadFromFile(const char *data) {
-    dfunction_t     *func;
     edict_t         *ent = NULL;
     int             inhibit = 0;
 

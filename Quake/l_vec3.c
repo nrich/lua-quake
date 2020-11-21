@@ -28,6 +28,7 @@ static int l_vec3_new(lua_State *L) {
     int n = lua_gettop(L);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
+
     if (n == 3) {
 	vec_t x = luaL_checknumber(L, 1);
 	vec_t y = luaL_checknumber(L, 2);
@@ -72,8 +73,8 @@ static int l_vec3_sub(lua_State *L) {
 
 static int l_vec3_dot(lua_State *L);
 static int l_vec3_mul(lua_State *L) {
-    vec3_t *in;
-    vec_t mul;
+    vec3_t *in = NULL;
+    vec_t mul = 1;
 
     if (lua_isuserdata(L, 1) && lua_isuserdata(L, 2)) {
         return l_vec3_dot(L);
@@ -96,8 +97,8 @@ static int l_vec3_mul(lua_State *L) {
 }
 
 static int l_vec3_div(lua_State *L) {
-    vec3_t *in;
-    vec_t mul;
+    vec3_t *in = NULL;
+    vec_t mul = 1;
 
     if (lua_isuserdata(L, 1)) {
         in = luaL_checkudata(L, 1, GAME_VEC3);
@@ -106,7 +107,6 @@ static int l_vec3_div(lua_State *L) {
         in = luaL_checkudata(L, 2, GAME_VEC3);
         mul = luaL_checknumber(L, 1);
     }
-
 
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
