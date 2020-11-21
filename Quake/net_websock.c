@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "quakedef.h"
 #include "net_defs.h"
 
-#include "net_webrtc.h"
+#include "net_websock.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -169,15 +169,8 @@ int WebSock_StringToAddr (const char *string, struct qsockaddr *addr) {
 //=============================================================================
 
 int WebSock_GetSocketAddr (sys_socket_t socketid, struct qsockaddr *addr) {
-/*
-    if (socketid) {
-        int count = snprintf((char *)addr, sizeof(*addr)-1, "client%02d\0", socketid);
-    } else {
-        int count = snprintf((char *)addr, sizeof(*addr)-1, "server\0");
-    }
-*/
-
     char *bytes = (char *)addr;
+
     bytes[0] = (char)(socketid & 255);
     bytes[1] = (char)((socketid >> 8) & 255);
 
