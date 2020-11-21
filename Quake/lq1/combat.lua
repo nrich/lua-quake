@@ -183,7 +183,7 @@ function T_Damage(targ, inflictor, attacker, damage) -- entity, entity, entity, 
 	end
 
 -- team play damage avoidance
-	if  teamplay  and  (targ.team > 0) and (targ.team == attacker.team)  then -- TODO check condition
+	if  teamplay ~= 0 and  (targ.team > 0) and (targ.team == attacker.team)  then -- TODO check condition
 		return
         end
 		
