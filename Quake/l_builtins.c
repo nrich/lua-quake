@@ -208,7 +208,6 @@ int l_builtin_normalize(lua_State *L) {
 }
 
 int l_builtin_error(lua_State *L) {
-
 #ifdef __EMSCRIPTEN__
 
 #include <emscripten.h>
@@ -222,8 +221,6 @@ int l_builtin_error(lua_State *L) {
     //lua_pop(L, 1);
 #endif
 
-    //Host_Error("l_builtin_error: %s\n%s\n", lua_tostring(L, 1), lua_tostring(L, -1));
-    //Host_Error("l_builtin_error: %s\n", lua_tostring(L, -1));
     luaL_traceback(L, L, lua_tostring(L, 1), 1);
     Host_Error("l_builtin_error: %s\n", lua_tostring(L, -1));
 
@@ -231,7 +228,20 @@ int l_builtin_error(lua_State *L) {
 }
 
 int l_builtin_objerror(lua_State *L) {
-    luaL_traceback(L, L, NULL, 1);
+#ifdef __EMSCRIPTEN__
+
+#include <emscripten.h>
+    luaL_where(L, 1);
+    luaL_tolstring(L, 1, NULL);
+    lua_concat(L, 2);
+
+    EM_ASM({
+        set_lua_error(Module.UTF8ToString($0));
+    }, lua_tostring(L, -1));
+    //lua_pop(L, 1);
+#endif
+
+    luaL_traceback(L, L, lua_tostring(L, 1), 1);
     Host_Error("l_builtin_objerror: %s\n", lua_tostring(L, -1));
 
     return 0;
