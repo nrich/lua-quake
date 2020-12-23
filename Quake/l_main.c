@@ -180,6 +180,12 @@ void l_ExecuteProgram(func_t func) {
         lua_pushnumber(state, pr_global_struct->time);
         lua_setglobal(state, "time");
 
+        lua_pushnumber(state, pr_global_struct->deathmatch);
+        lua_setglobal(state, "deathmatch");
+
+        lua_pushnumber(state, pr_global_struct->coop);
+        lua_setglobal(state, "coop");
+
 #if 1
         if (pr_global_struct->self > 0) {
             int *self = lua_newuserdata(state, sizeof(int));
@@ -433,6 +439,15 @@ static const char *l_init(char *path) {
     lua_atpanic(state, &l_custom_lua_atpanic);
 
     l_set_gamepath(state, path);
+
+    lua_pushnumber(state, pr_global_struct->time);
+    lua_setglobal(state, "time");
+
+    lua_pushnumber(state, pr_global_struct->deathmatch);
+    lua_setglobal(state, "deathmatch");
+
+    lua_pushnumber(state, pr_global_struct->coop);
+    lua_setglobal(state, "coop");
 
     if (luaL_dofile(state, compiledname) != 0) {
         Con_SafePrintf("Could not execute lua chunkfile '%s'\n", lua_tostring(state, -1));

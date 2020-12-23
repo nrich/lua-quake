@@ -1245,12 +1245,6 @@ int l_global_register(lua_State *L) {
     lua_pushcfunction(L, l_global_tostring);
     lua_setfield(L, -2, "__tostring");
 
-    lua_pushnumber(L, pr_global_struct->deathmatch);
-    lua_setglobal(L, "deathmatch");
-
-    lua_pushnumber(L, pr_global_struct->coop);
-    lua_setglobal(L, "coop");
-
     return 1;
 }
 
