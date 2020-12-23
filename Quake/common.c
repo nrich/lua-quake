@@ -1282,6 +1282,10 @@ static void COM_CheckRegistered (void)
 	unsigned short	check[128];
 	int		i;
 
+#ifdef LUAQUAKE_ENHANCED
+        return;
+#endif
+
 	COM_OpenFile("gfx/pop.lmp", &h, NULL);
 
 	if (h == -1)
@@ -2095,11 +2099,13 @@ static void COM_Game_f (void)
 		const char *p2 = Cmd_Argv(2);
 		searchpath_t *search;
 
+#ifndef LUAQUAKE_ENHANCED
 		if (!registered.value) //disable shareware quake
 		{
 			Con_Printf("You must have the registered version to use modified games\n");
 			return;
 		}
+#endif
 
 		if (!*p || !strcmp(p, ".") || strstr(p, "..") || strstr(p, "/") || strstr(p, "\\") || strstr(p, ":"))
 		{
