@@ -5,3 +5,8 @@ quakespasm
 id1
 history.txt
 config.cfg
+Emscripten/lua-5.3.5/lua5.3/liblua.a
+Quake/quakespasm.data
+Quake/quakespasm.js
+Quake/quakespasm.wasm
+
