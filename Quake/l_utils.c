@@ -508,3 +508,26 @@ const char *l_getstring(lua_State *L, int pos, const char *name) {
 
     return "";
 }
+
+vec3_t *l_getvec3prop(lua_State *L, int pos, const char *typename, const char *name) {
+    if (lua_isuserdata(L, pos)) {
+        vec3_t *vec = luaL_testudata(L, pos, GAME_VEC3);
+
+        if (vec) {
+            return vec;
+        } else {
+            vec3_t **vecptr = luaL_testudata(L, pos, GAME_VEC3PTR);
+
+            if (vecptr) {
+                return *vecptr;
+            } else {
+                luaL_error(L, "Value assigned to `%s' is a %s, not a %s\n", name, luaL_typename(L, pos), typename);
+            }
+        }
+    } else {
+        luaL_error(L, "Value assigned to `%s' is a %s, not a %s\n", name, luaL_typename(L, pos), typename);
+    }
+
+    return NULL;
+}
+

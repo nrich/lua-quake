@@ -27,6 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ENTITIY_PUSH_NIL_NOT_WORLD 1
 #endif
 
+vec3_t *l_getvec3prop(lua_State *L, int pos, const char *typename, const char *name);
+
 static int l_entity_eq(lua_State *L) {
     int *left = luaL_checkudata(L, 1, GAME_ENTITY);
     int *right = luaL_checkudata(L, 2, GAME_ENTITY);
@@ -53,15 +55,15 @@ static int l_entity_index(lua_State *L) {
         lua_pushnumber(L, ed->v.modelindex);
     } else if (strncmp(property, "absmin", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
-        VectorCopy(ed->v.absmin, out[0]);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.absmin;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "absmax", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
-        VectorCopy(ed->v.absmax, out[0]);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.absmax;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "ltime", 5) == 0 && len == 5) {
         // float
@@ -74,35 +76,39 @@ static int l_entity_index(lua_State *L) {
         lua_pushnumber(L, ed->v.solid);
     } else if (strncmp(property, "origin", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
-        VectorCopy(ed->v.origin, out[0]);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.origin;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "oldorigin", 9) == 0 && len == 9) {
-        // vec3_t
-        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
-        VectorCopy(ed->v.oldorigin, out[0]);
-        luaL_getmetatable(L, GAME_VEC3);
+        // vec3_t        vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.oldorigin;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "velocity", 8) == 0 && len == 8) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.velocity);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.velocity;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "angles", 6) == 0 && len == 6) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.angles);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.angles;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "avelocity", 9) == 0 && len == 9) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.avelocity);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.avelocity;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "punchangle", 10) == 0 && len == 10) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.punchangle);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.punchangle;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "classname", 9) == 0 && len == 9) {
         // string_t
@@ -121,18 +127,21 @@ static int l_entity_index(lua_State *L) {
         lua_pushnumber(L, ed->v.effects);
     } else if (strncmp(property, "mins", 4) == 0 && len == 4) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.mins);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.mins;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "maxs", 4) == 0 && len == 4) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.maxs);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.maxs;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "size", 4) == 0 && len == 4) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.size);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.size;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "touch", 5) == 0 && len == 5) {
         // func_t
@@ -228,8 +237,9 @@ static int l_entity_index(lua_State *L) {
         lua_pushnumber(L, ed->v.deadflag);
     } else if (strncmp(property, "view_ofs", 8) == 0 && len == 8) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.view_ofs);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.view_ofs;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "button0", 7) == 0 && len == 7) {
         // float
@@ -265,8 +275,9 @@ static int l_entity_index(lua_State *L) {
         lua_pushboolean(L, ed->v.fixangle);
     } else if (strncmp(property, "v_angle", 7) == 0 && len == 7) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.v_angle);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.v_angle;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "idealpitch", 10) == 0 && len == 10) {
         // float
@@ -379,8 +390,9 @@ static int l_entity_index(lua_State *L) {
         }
     } else if (strncmp(property, "movedir", 7) == 0 && len == 7) {
         // vec3_t
-        lua_pushlightuserdata(L, &ed->v.movedir);
-        luaL_getmetatable(L, GAME_VEC3);
+        vec3_t **out = lua_newuserdata(L, sizeof(vec3_t*));
+        *out = &ed->v.movedir;
+        luaL_getmetatable(L, GAME_VEC3PTR);
         lua_setmetatable(L, -2);
     } else if (strncmp(property, "message", 7) == 0 && len == 7) {
         // string_t
@@ -434,11 +446,11 @@ static int l_entity_newindex(lua_State *L) {
         ed->v.modelindex = l_getnumber(L, 3, "modelindex");
     } else if (strncmp(property, "absmin", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "absmin");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "absmin");
         VectorCopy(in[0], ed->v.absmin);
     } else if (strncmp(property, "absmax", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "absmax");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "absmax");
         VectorCopy(in[0], ed->v.absmax);
     } else if (strncmp(property, "ltime", 5) == 0 && len == 5) {
         // float
@@ -451,27 +463,27 @@ static int l_entity_newindex(lua_State *L) {
         ed->v.solid = l_getnumber(L, 3, "solid");
     } else if (strncmp(property, "origin", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "origin");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "origin");
         VectorCopy(in[0], ed->v.origin);
     } else if (strncmp(property, "oldorigin", 9) == 0 && len == 9) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "oldorigin");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "oldorigin");
         VectorCopy(in[0], ed->v.oldorigin);
     } else if (strncmp(property, "velocity", 8) == 0 && len == 8) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "velocity");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "velocity");
         VectorCopy(in[0], ed->v.velocity);
     } else if (strncmp(property, "angles", 6) == 0 && len == 6) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "angles");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "angles");
         VectorCopy(in[0], ed->v.angles);
     } else if (strncmp(property, "avelocity", 9) == 0 && len == 9) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "avelocity");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "avelocity");
         VectorCopy(in[0], ed->v.avelocity);
     } else if (strncmp(property, "punchangle", 10) == 0 && len == 10) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "punchangle");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "punchangle");
         VectorCopy(in[0], ed->v.punchangle);
     } else if (strncmp(property, "classname", 9) == 0 && len == 9) {
         // string_t
@@ -502,15 +514,15 @@ static int l_entity_newindex(lua_State *L) {
         ed->v.effects = l_getnumber(L, 3, "effects");
     } else if (strncmp(property, "mins", 4) == 0 && len == 4) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "mins");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "mins");
         VectorCopy(in[0], ed->v.mins);
     } else if (strncmp(property, "maxs", 4) == 0 && len == 4) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "maxs");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "maxs");
         VectorCopy(in[0], ed->v.maxs);
     } else if (strncmp(property, "size", 4) == 0 && len == 4) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "size");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "size");
         VectorCopy(in[0], ed->v.size);
     } else if (strncmp(property, "touch", 5) == 0 && len == 5) {
         // func_t
@@ -630,7 +642,7 @@ static int l_entity_newindex(lua_State *L) {
         ed->v.deadflag = l_getnumber(L, 3, "deadflag");
     } else if (strncmp(property, "view_ofs", 8) == 0 && len == 8) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "view_ofs");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "view_ofs");
         VectorCopy(in[0], ed->v.view_ofs);
     } else if (strncmp(property, "button0", 7) == 0 && len == 7) {
         // float
@@ -666,7 +678,7 @@ static int l_entity_newindex(lua_State *L) {
         ed->v.fixangle = lua_toboolean(L, 3);
     } else if (strncmp(property, "v_angle", 7) == 0 && len == 7) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "v_angle");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "v_angle");
         VectorCopy(in[0], ed->v.v_angle);
     } else if (strncmp(property, "idealpitch", 10) == 0 && len == 10) {
         // float
@@ -782,7 +794,7 @@ static int l_entity_newindex(lua_State *L) {
         }
     } else if (strncmp(property, "movedir", 7) == 0 && len == 7) {
         // vec3_t
-        vec3_t *in = l_getuserdata(L, 3, GAME_VEC3, "movedir");
+        vec3_t *in = l_getvec3prop(L, 3, GAME_VEC3, "movedir");
         VectorCopy(in[0], ed->v.movedir);
     } else if (strncmp(property, "message", 7) == 0 && len == 7) {
         // string_t
@@ -845,7 +857,33 @@ static int l_entity_newindex(lua_State *L) {
 
         lua_rawgeti(L, LUA_REGISTRYINDEX, *gameref);
         lua_pushstring(L, property);
-        lua_pushvalue(L, 3);
+
+        if (lua_isuserdata(L, 3)) {
+            vec3_t *vec = luaL_testudata(L, 3, GAME_VEC3);
+
+            if (vec) {
+                vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
+                VectorCopy(vec[0], out[0]);
+                luaL_getmetatable(L, GAME_VEC3);
+                lua_setmetatable(L, -2);
+            } else {
+                vec3_t **vecptr = luaL_testudata(L, 3, GAME_VEC3PTR);
+
+                if (vecptr) {
+                    vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
+
+                    vec = *vecptr;
+
+                    VectorCopy(vec[0], out[0]);
+                    luaL_getmetatable(L, GAME_VEC3);
+                    lua_setmetatable(L, -2);
+                } else {
+                    lua_pushvalue(L, 3);
+                }
+            }
+        } else {
+            lua_pushvalue(L, 3);
+        }
         lua_settable(L, -3);
     }
 

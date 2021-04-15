@@ -26,9 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <compat-5.3.h>
 #endif
 
-#define GAME_ENTITY  "Entity"
-#define GAME_VEC3  "vec3"
-#define GAME_GLOBAL  "Global"
+#define GAME_ENTITY     "Entity"
+#define GAME_VEC3       "vec3"
+#define GAME_VEC3PTR    "vec3ptr"
+#define GAME_GLOBAL     "Global"
 
 #define GAME_NAMESPACE "qc"
 

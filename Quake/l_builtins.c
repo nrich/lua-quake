@@ -27,6 +27,7 @@ void SV_NewChaseDir(edict_t *actor, edict_t *enemy, float dist);
 const char *l_GetString (lua_State *L, int num, int empty_as_null);
 int l_GetStringRef(const char *string);
 ddef_t *l_find_def(const char *fieldname);
+vec3_t *l_getvec3(lua_State *L, int pos);
 
 extern cvar_t sv_aim;
 
@@ -100,7 +101,7 @@ static void SetMinMaxSize (edict_t *e, vec3_t minvec, vec3_t maxvec, qboolean ro
 
 
 int l_builtin_makevectors(lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
 
     AngleVectors(vec[0], pr_global_struct->v_forward, pr_global_struct->v_right, pr_global_struct->v_up);   
 
@@ -109,7 +110,7 @@ int l_builtin_makevectors(lua_State *L) {
 
 int l_builtin_setorigin(lua_State *L) {
     int *ent = luaL_checkudata(L, 1, GAME_ENTITY);
-    vec3_t *org = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *org = l_getvec3(L, 2);
 
     edict_t *e = PROG_TO_EDICT(ent[0]);
 
@@ -161,8 +162,8 @@ int l_builtin_setmodel(lua_State *L) {
 
 int l_builtin_setsize(lua_State *L) {
     int *ent = luaL_checkudata(L, 1, GAME_ENTITY);
-    vec3_t *minvec = luaL_checkudata(L, 2, GAME_VEC3);
-    vec3_t *maxvec = luaL_checkudata(L, 3, GAME_VEC3);
+    vec3_t *minvec = l_getvec3(L, 2);
+    vec3_t *maxvec = l_getvec3(L, 3);
     edict_t *e = PROG_TO_EDICT(ent[0]);
 
     SetMinMaxSize(e, minvec[0], maxvec[0], false);
@@ -194,7 +195,7 @@ int l_builtin_break(lua_State *L) {
 }
 
 int l_builtin_normalize(lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
 
     VectorCopy(vec[0], out[0]);
@@ -248,14 +249,14 @@ int l_builtin_objerror(lua_State *L) {
 }
 
 int l_builtin_vlen(lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
 
     lua_pushnumber(L, VectorLength(vec[0]));
     return 1;
 }
 
 int l_builtin_vectoyaw(lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
     float yaw;
 
     if (vec[0][1] == 0 && vec[0][0] == 0) {
@@ -361,8 +362,8 @@ int l_builtin_rint(lua_State *L) {
 }
 
 int l_builtin_particle(lua_State *L) {
-    vec3_t *org = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *dir = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *org = l_getvec3(L, 1);
+    vec3_t *dir = l_getvec3(L, 2);
     float color = luaL_checknumber(L, 3);
     float count = luaL_checknumber(L, 4);
 
@@ -446,7 +447,7 @@ int l_builtin_checkbottom(lua_State *L) {
 }
 
 int l_builtin_pointcontents(lua_State *L) {
-    vec3_t *v = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *v = l_getvec3(L, 1);
 
     lua_pushboolean(L, SV_PointContents(v[0]));
 
@@ -466,14 +467,14 @@ int l_builtin_ftos(lua_State *L) {
 }
 
 int l_builtin_vtos(lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
 
-    lua_pushfstring(L, "'%f %f %f'", vec[0][0], vec[0][1], vec[0][2]);
+    lua_pushfstring(L, "%f %f %f", vec[0][0], vec[0][1], vec[0][2]);
     return 1;
 }
 
 int l_builtin_vectoangles (lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     float forward;
     float yaw, pitch;
@@ -776,8 +777,8 @@ int l_builtin_walkmove(lua_State *L) {
 
 int l_builtin_traceline(lua_State *L) {
     trace_t trace;
-    vec3_t *v1 = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *v2 = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *v1 = l_getvec3(L, 1);
+    vec3_t *v2 = l_getvec3(L, 2);
     int nomonsters = lua_toboolean(L, 3);
     int *ent = luaL_checkudata(L, 4, GAME_ENTITY);
 
@@ -861,7 +862,7 @@ int l_builtin_findradius(lua_State *L) {
     vec3_t eorg;
     int i, j;
 
-    vec3_t *org = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *org = l_getvec3(L, 1);
     float rad = luaL_checknumber(L, 2);
     edict_t *chain = (edict_t *)sv.edicts;
     edict_t *ent = NEXT_EDICT(sv.edicts);
@@ -894,7 +895,7 @@ int l_builtin_ambientsound(lua_State *L) {
     int             i, soundnum;
     int             large = false; //johnfitz -- PROTOCOL_FITZQUAKE
 
-    vec3_t *pos = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *pos = l_getvec3(L, 1);
     samp = luaL_checkstring(L, 2);
     vol = luaL_checknumber(L, 3);
     attenuation = luaL_checknumber(L, 4);

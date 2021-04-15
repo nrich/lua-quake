@@ -24,6 +24,42 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "q_stdinc.h"
 #include "mathlib.h"
 
+vec3_t *l_getvec3(lua_State *L, int pos) {
+    if (lua_isuserdata(L, pos)) {
+        vec3_t *vec = luaL_testudata(L, pos, GAME_VEC3);
+
+        if (vec) {
+            return vec;
+        } else {
+            vec3_t **vecptr = luaL_testudata(L, pos, GAME_VEC3PTR);
+
+            if (vecptr) {
+                return *vecptr;
+            } else {
+                luaL_error(L, "Invalid type `%s', should be %s\n", lua_typename(L, pos), GAME_VEC3);
+            }
+        }
+/*
+    } else if (lua_isstring(L, pos)) {
+        const char *vecstring = lua_tostring(L, pos);
+        vec_t x, y, z;
+
+        if (sscanf(vecstring, "%f %f %f", &x, &y, &z) == 3) {
+            v[0] = x;
+            v[1] = y;
+            v[2] = z;
+        } else {
+            luaL_error(L, "Invalid %s string `%s', should be 'num num num'\n", GAME_VEC3, vecstring);
+        }
+*/
+    } else {
+        luaL_error(L, "Invalid type `%s', should be %s\n", lua_typename(L, pos), GAME_VEC3);
+    }
+
+    return NULL;
+}
+
+
 static int l_vec3_new(lua_State *L) {
     int n = lua_gettop(L);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
@@ -46,8 +82,8 @@ static int l_vec3_new(lua_State *L) {
 }
 
 static int l_vec3_add(lua_State *L) {
-    vec3_t *a = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *b = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *a = l_getvec3(L, 1);
+    vec3_t *b = l_getvec3(L, 2);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
     VectorAdd(a[0], b[0], out[0]);
@@ -59,8 +95,8 @@ static int l_vec3_add(lua_State *L) {
 }
 
 static int l_vec3_sub(lua_State *L) {
-    vec3_t *a = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *b = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *a = l_getvec3(L, 1);
+    vec3_t *b = l_getvec3(L, 2);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
     VectorSubtract(a[0], b[0], out[0]);
@@ -79,10 +115,10 @@ static int l_vec3_mul(lua_State *L) {
     if (lua_isuserdata(L, 1) && lua_isuserdata(L, 2)) {
         return l_vec3_dot(L);
     } else if (lua_isuserdata(L, 1)) {
-        in = luaL_checkudata(L, 1, GAME_VEC3);
+        in = l_getvec3(L, 1);
         mul = luaL_checknumber(L, 2);
     } else if (lua_isuserdata(L, 2)) {
-        in = luaL_checkudata(L, 2, GAME_VEC3);
+        in = l_getvec3(L, 2);
         mul = luaL_checknumber(L, 1);
     }
 
@@ -101,10 +137,10 @@ static int l_vec3_div(lua_State *L) {
     vec_t mul = 1;
 
     if (lua_isuserdata(L, 1)) {
-        in = luaL_checkudata(L, 1, GAME_VEC3);
+        in = l_getvec3(L, 1);
         mul = luaL_checknumber(L, 2);
     } else if (lua_isuserdata(L, 2)) {
-        in = luaL_checkudata(L, 2, GAME_VEC3);
+        in = l_getvec3(L, 2);
         mul = luaL_checknumber(L, 1);
     }
 
@@ -119,8 +155,8 @@ static int l_vec3_div(lua_State *L) {
 }
 
 static int l_vec3_dot(lua_State *L) {
-    vec3_t *a = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *b = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *a = l_getvec3(L, 1);
+    vec3_t *b = l_getvec3(L, 2);
     
     vec_t dot = DotProduct(a[0], b[0]);
 
@@ -130,8 +166,8 @@ static int l_vec3_dot(lua_State *L) {
 }
 
 static int l_vec3_crs(lua_State *L) {
-    vec3_t *a = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *b = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *a = l_getvec3(L, 1);
+    vec3_t *b = l_getvec3(L, 2);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
     CrossProduct(a[0], b[0], out[0]);
@@ -143,7 +179,7 @@ static int l_vec3_crs(lua_State *L) {
 }
 
 static int l_vec3_neg(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
     VectorCopy(in[0], out[0]);
@@ -156,7 +192,7 @@ static int l_vec3_neg(lua_State *L) {
 }
 
 static int l_vec3_len(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     vec_t len = VectorLength(in[0]);
 
     lua_pushnumber(L, len);
@@ -164,8 +200,8 @@ static int l_vec3_len(lua_State *L) {
 }
 
 static int l_vec3_eq(lua_State *L) {
-    vec3_t *pa = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *pb = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *pa = l_getvec3(L, 1);
+    vec3_t *pb = l_getvec3(L, 2);
 
     float *a = pa[0];
     float *b = pb[0];
@@ -181,8 +217,8 @@ static int l_vec3_eq(lua_State *L) {
 }
 
 static int l_vec3_gt(lua_State *L) {
-    vec3_t *pa = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *pb = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *pa = l_getvec3(L, 1);
+    vec3_t *pb = l_getvec3(L, 2);
 
     float *a = pa[0];
     float *b = pb[0];
@@ -198,8 +234,8 @@ static int l_vec3_gt(lua_State *L) {
 }
 
 static int l_vec3_lt(lua_State *L) {
-    vec3_t *pa = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *pb = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *pa = l_getvec3(L, 1);
+    vec3_t *pb = l_getvec3(L, 2);
 
     float *a = pa[0];
     float *b = pb[0];
@@ -215,8 +251,8 @@ static int l_vec3_lt(lua_State *L) {
 }
 
 static int l_vec3_ge(lua_State *L) {
-    vec3_t *pa = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *pb = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *pa = l_getvec3(L, 1);
+    vec3_t *pb = l_getvec3(L, 2);
 
     float *a = pa[0];
     float *b = pb[0];
@@ -232,8 +268,8 @@ static int l_vec3_ge(lua_State *L) {
 }
 
 static int l_vec3_le(lua_State *L) {
-    vec3_t *pa = luaL_checkudata(L, 1, GAME_VEC3);
-    vec3_t *pb = luaL_checkudata(L, 2, GAME_VEC3);
+    vec3_t *pa = l_getvec3(L, 1);
+    vec3_t *pb = l_getvec3(L, 2);
 
     float *a = pa[0];
     float *b = pb[0];
@@ -249,7 +285,7 @@ static int l_vec3_le(lua_State *L) {
 }
 
 static int l_vec3_normal(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
     VectorCopy(in[0], out[0]);
@@ -263,7 +299,7 @@ static int l_vec3_normal(lua_State *L) {
 
 static int l_vec3_set(lua_State *L) {
     int n = lua_gettop(L);
-    vec3_t *out = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *out = l_getvec3(L, 1);
     
     if (n == 4) {
 	vec_t x = luaL_checknumber(L, 2);
@@ -274,7 +310,7 @@ static int l_vec3_set(lua_State *L) {
         out[0][1] = y;
         out[0][2] = z;
     } else {
-	vec3_t *src = luaL_checkudata(L, 2, GAME_VEC3);
+	vec3_t *src = l_getvec3(L, 2);
         VectorCopy(src[0], out[0]);
     }
 
@@ -282,7 +318,7 @@ static int l_vec3_set(lua_State *L) {
 }
 
 static int l_vec3_clone(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     vec3_t *out = lua_newuserdata(L, sizeof(vec3_t));
     
     VectorCopy(in[0], out[0]);
@@ -294,7 +330,7 @@ static int l_vec3_clone(lua_State *L) {
 }
 
 static int l_vec3_anglevectors(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     
     vec3_t *forward = lua_newuserdata(L, sizeof(vec3_t));
     vec3_t *right = lua_newuserdata(L, sizeof(vec3_t));
@@ -315,14 +351,14 @@ static int l_vec3_anglevectors(lua_State *L) {
 }
 
 static int l_vec3_tostring(lua_State *L) {
-    vec3_t *vec = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *vec = l_getvec3(L, 1);
 
-    lua_pushfstring(L, "(%f,%f,%f)", vec[0][0], vec[0][1], vec[0][2]);
+    lua_pushfstring(L, "%f %f %f", vec[0][0], vec[0][1], vec[0][2]);
     return 1;
 }
 
 static int l_vec3_index(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     const char *property = luaL_checkstring(L, 2);
     float v = 0;
 
@@ -359,7 +395,7 @@ static int l_vec3_index(lua_State *L) {
 }
 
 static int l_vec3_newindex(lua_State *L) {
-    vec3_t *in = luaL_checkudata(L, 1, GAME_VEC3);
+    vec3_t *in = l_getvec3(L, 1);
     const char *property = luaL_checkstring(L, 2);
     float v = luaL_checknumber(L, 3);
 
@@ -392,58 +428,78 @@ int l_vec3_register(lua_State *L) {
     lua_register(L, GAME_VEC3, l_vec3_new);
 
     luaL_newmetatable(L, GAME_VEC3);
-
     lua_pushcfunction(L, l_vec3_index);
     lua_setfield(L, -2, "__index");
-
     lua_pushcfunction(L, l_vec3_newindex);
     lua_setfield(L, -2, "__newindex");
-
     lua_pushcfunction(L, l_vec3_add);
     lua_setfield(L, -2, "__add");
-
     lua_pushcfunction(L, l_vec3_sub);
     lua_setfield(L, -2, "__sub");
-
     lua_pushcfunction(L, l_vec3_mul);
     lua_setfield(L, -2, "__mul");
-
     lua_pushcfunction(L, l_vec3_div);
     lua_setfield(L, -2, "__div");
-
     lua_pushcfunction(L, l_vec3_dot);
     lua_setfield(L, -2, "__mod");
-
     lua_pushcfunction(L, l_vec3_crs);
     lua_setfield(L, -2, "__pow");
-
     lua_pushcfunction(L, l_vec3_neg);
     lua_setfield(L, -2, "__unm");
-
     lua_pushcfunction(L, l_vec3_len);
     lua_setfield(L, -2, "__len");
-
     lua_pushcfunction(L, l_vec3_eq);
     lua_setfield(L, -2, "__eq");
-
     lua_pushcfunction(L, l_vec3_gt);
     lua_setfield(L, -2, "__gt");
-
     lua_pushcfunction(L, l_vec3_lt);
     lua_setfield(L, -2, "__lt");
-
     lua_pushcfunction(L, l_vec3_ge);
     lua_setfield(L, -2, "__ge");
-
     lua_pushcfunction(L, l_vec3_le);
     lua_setfield(L, -2, "__le");
-
     lua_pushcfunction(L, l_vec3_tostring);
     lua_setfield(L, -2, "__tostring");
-
     lua_pushcfunction(L, l_vec3_gc);
     lua_setfield(L, -2, "__gc");
+    lua_pushcfunction(L, l_vec3_clone);
+    lua_setfield(L, -2, "__call");
 
+    luaL_newmetatable(L, GAME_VEC3PTR);
+    lua_pushcfunction(L, l_vec3_index);
+    lua_setfield(L, -2, "__index");
+    lua_pushcfunction(L, l_vec3_newindex);
+    lua_setfield(L, -2, "__newindex");
+    lua_pushcfunction(L, l_vec3_add);
+    lua_setfield(L, -2, "__add");
+    lua_pushcfunction(L, l_vec3_sub);
+    lua_setfield(L, -2, "__sub");
+    lua_pushcfunction(L, l_vec3_mul);
+    lua_setfield(L, -2, "__mul");
+    lua_pushcfunction(L, l_vec3_div);
+    lua_setfield(L, -2, "__div");
+    lua_pushcfunction(L, l_vec3_dot);
+    lua_setfield(L, -2, "__mod");
+    lua_pushcfunction(L, l_vec3_crs);
+    lua_setfield(L, -2, "__pow");
+    lua_pushcfunction(L, l_vec3_neg);
+    lua_setfield(L, -2, "__unm");
+    lua_pushcfunction(L, l_vec3_len);
+    lua_setfield(L, -2, "__len");
+    lua_pushcfunction(L, l_vec3_eq);
+    lua_setfield(L, -2, "__eq");
+    lua_pushcfunction(L, l_vec3_gt);
+    lua_setfield(L, -2, "__gt");
+    lua_pushcfunction(L, l_vec3_lt);
+    lua_setfield(L, -2, "__lt");
+    lua_pushcfunction(L, l_vec3_ge);
+    lua_setfield(L, -2, "__ge");
+    lua_pushcfunction(L, l_vec3_le);
+    lua_setfield(L, -2, "__le");
+    lua_pushcfunction(L, l_vec3_tostring);
+    lua_setfield(L, -2, "__tostring");
+    lua_pushcfunction(L, l_vec3_gc);
+    lua_setfield(L, -2, "__gc");
     lua_pushcfunction(L, l_vec3_clone);
     lua_setfield(L, -2, "__call");
 
