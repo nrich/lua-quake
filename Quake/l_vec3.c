@@ -36,24 +36,14 @@ vec3_t *l_getvec3(lua_State *L, int pos) {
             if (vecptr) {
                 return *vecptr;
             } else {
-                luaL_error(L, "Invalid type `%s', should be %s\n", lua_typename(L, pos), GAME_VEC3);
+                lua_getmetatable(L, pos);
+                lua_pushstring(L, "__name");
+                lua_rawget(L, -2);
+                luaL_error(L, "Invalid type `%s', should be %s?\n", lua_tostring(L, -1), GAME_VEC3);
             }
         }
-/*
-    } else if (lua_isstring(L, pos)) {
-        const char *vecstring = lua_tostring(L, pos);
-        vec_t x, y, z;
-
-        if (sscanf(vecstring, "%f %f %f", &x, &y, &z) == 3) {
-            v[0] = x;
-            v[1] = y;
-            v[2] = z;
-        } else {
-            luaL_error(L, "Invalid %s string `%s', should be 'num num num'\n", GAME_VEC3, vecstring);
-        }
-*/
     } else {
-        luaL_error(L, "Invalid type `%s', should be %s\n", lua_typename(L, pos), GAME_VEC3);
+        luaL_error(L, "Invalid type `%s', should be %s\n", luaL_typename(L, pos), GAME_VEC3);
     }
 
     return NULL;
@@ -73,6 +63,39 @@ static int l_vec3_new(lua_State *L) {
 	out[0][0] = x;
         out[0][1] = y;
         out[0][2] = z;
+    } else if (n == 1) {
+        if (lua_isstring(L, 1)) {
+            const char *vecstring = lua_tostring(L, 1);
+            vec_t x, y, z;
+
+            if (sscanf(vecstring, "%f %f %f", &x, &y, &z) == 3) {
+                out[0][0] = x;
+                out[0][1] = y;
+                out[0][2] = z;
+            } else {
+                luaL_error(L, "Invalid %s string `%s', should be 'number number number'\n", GAME_VEC3, vecstring);
+            }
+        } else if (lua_istable(L, 1)) {
+            size_t len = lua_rawlen(L, 1);
+
+            if (len == 3) {
+                lua_geti(L, 1, 3);
+                lua_geti(L, 1, 2);
+                lua_geti(L, 1, 1);
+
+                out[0][0] = luaL_checknumber(L, -1);
+                out[0][1] = luaL_checknumber(L, -2);
+                out[0][2] = luaL_checknumber(L, -3);
+
+                lua_pop(L, 3);
+            } else {
+                luaL_error(L, "Invalid table should be {number, number, number}\n");
+            }
+        } else {
+            vec3_t *in = l_getvec3(L, 1);
+
+            VectorCopy(in[0], out[0]);
+        }
     } 
 
     luaL_getmetatable(L, GAME_VEC3);
