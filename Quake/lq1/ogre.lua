@@ -91,7 +91,7 @@ function OgreGrenadeTouch()
 		return
 	end
 	sound (self, CHAN_VOICE, "weapons/bounce.wav", 1, ATTN_NORM)	-- bounce sound
-	if self.velocity() == vec3(0, 0, 0) then -- TODO check condition
+	if self.velocity == vec3(0, 0, 0) then -- TODO check condition
 		self.avelocity = vec3(0, 0, 0)
         end
 end

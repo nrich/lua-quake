@@ -850,7 +850,7 @@ function CheckWaterJump()
 
 -- check for a jump-out-of-water
 	makevectors (self.angles)
-	start = self.origin
+	start = vec3(self.origin)
 	start.z= start.z+ 8 
 	qc.v_forward.z= 0
 	normalize(qc.v_forward)

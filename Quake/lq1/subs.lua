@@ -32,9 +32,9 @@ end
 --just constant angles.
 --*/
 function SetMovedir()
-	if self.angles() == vec3(0, -1, 0) then -- TODO check condition
+	if self.angles == vec3(0, -1, 0) then -- TODO check condition
 		self.movedir = vec3(0, 0, 1)
-	elseif self.angles() == vec3(0, -2, 0) then -- TODO check condition
+	elseif self.angles == vec3(0, -2, 0) then -- TODO check condition
 		self.movedir = vec3(0, 0, -1)
 	else
 		makevectors (self.angles)
@@ -52,7 +52,7 @@ end
 function InitTrigger()
 -- trigger angles are used for one-way touches.  An angle of 0 is assumed
 -- to mean no restrictions, so use a yaw of 360 instead.
-	if self.angles() ~= vec3(0, 0, 0) then -- TODO check condition
+	if self.angles ~= vec3(0, 0, 0) then -- TODO check condition
 		SetMovedir ()
         end
 	self.solid = SOLID_TRIGGER
