@@ -421,6 +421,11 @@ static int l_entity_index(lua_State *L) {
             if (!lua_isnil(L, -1)) {
                 lua_pushstring(L, property);
                 lua_gettable(L, -2);
+
+                if (lua_isnil(L, -1)) {
+                    lua_pop(L, 1);
+                    lua_pushnumber(L, 0);
+                }
             }
         } else {
             lua_pushnil(L);
